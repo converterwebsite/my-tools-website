@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>मेरी टूल्स वेबसाइट - 100% काम करने वाले टूल्स</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-tools"></i>
+            <span>मेरी टूल्स</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active"><i class="fas fa-home"></i> होम</a>
+            <a href="#tools"><i class="fas fa-wrench"></i> टूल्स</a>
+            <a href="#about"><i class="fas fa-info-circle"></i> जानकारी</a>
+            <a href="#contact"><i class="fas fa-envelope"></i> संपर्क</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-magic"></i> 100% काम करने वाले टूल्स</h1>
+            <p>PDF, इमेज, टेक्स्ट - सभी टूल्स रियल टाइम में काम करते हैं</p>
+            <a href="#tools" class="btn-primary"><i class="fas fa-play"></i> टूल्स शुरू करें</a>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools" class="tools-section">
+        <h2 class="section-title"><i class="fas fa-cogs"></i> हमारे टूल्स</h2>
+        
+        <div class="tools-container">
+            <!-- Tool 1: PDF to Text -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #FF6B6B, #FF8E8E);">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>PDF से टेक्स्ट कन्वर्टर</h3>
+                </div>
+                <div class="tool-body">
+                    <p>PDF फाइल अपलोड करें और टेक्स्ट निकालें</p>
+                    
+                    <div class="file-upload-area" id="pdfUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>PDF फाइल यहाँ ड्रॉप करें या क्लिक करें</p>
+                        <input type="file" id="pdfFile" accept=".pdf" hidden>
+                        <label for="pdfFile" class="btn-upload">फाइल चुनें</label>
+                    </div>
+                    
+                    <div id="pdfPreview" class="preview-area" style="display: none;">
+                        <h4><i class="fas fa-file-alt"></i> PDF प्रीव्यू</h4>
+                        <div class="file-info">
+                            <p id="fileName"></p>
+                            <p id="fileSize"></p>
+                        </div>
+                        <button onclick="extractTextFromPDF()" class="btn-process">
+                            <i class="fas fa-sync-alt"></i> टेक्स्ट निकालें
+                        </button>
+                    </div>
+                    
+                    <div id="textResult" class="result-area" style="display: none;">
+                        <h4><i class="fas fa-text-height"></i> निकाला गया टेक्स्ट</h4>
+                        <textarea id="extractedText" rows="6" readonly></textarea>
+                        <button onclick="copyText()" class="btn-copy">
+                            <i class="fas fa-copy"></i> कॉपी करें
+                        </button>
+                        <button onclick="downloadText()" class="btn-download">
+                            <i class="fas fa-download"></i> डाउनलोड करें
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 2: Image Resizer -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #4ECDC4, #44A08D);">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>इमेज रीसाइज़र</h3>
+                </div>
+                <div class="tool-body">
+                    <p>इमेज का साइज बदलें (JPG, PNG, GIF)</p>
+                    
+                    <div class="file-upload-area" id="imageUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>इमेज फाइल यहाँ ड्रॉप करें या क्लिक करें</p>
+                        <input type="file" id="imageFile" accept="image/*" hidden>
+                        <label for="imageFile" class="btn-upload">इमेज चुनें</label>
+                    </div>
+                    
+                    <div id="imagePreviewContainer" class="preview-area" style="display: none;">
+                        <h4><i class="fas fa-expand-alt"></i> इमेज प्रीव्यू</h4>
+                        <div class="image-preview">
+                            <img id="imagePreview" src="" alt="Preview">
+                            <div class="image-info">
+                                <p id="imageDimensions"></p>
+                                <p id="imageSize"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="resize-controls">
+                            <div class="control-group">
+                                <label>Width (px):</label>
+                                <input type="range" id="widthSlider" min="100" max="2000" value="800">
+                                <input type="number" id="widthInput" value="800" min="100" max="2000">
+                            </div>
+                            <div class="control-group">
+                                <label>Height (px):</label>
+                                <input type="range" id="heightSlider" min="100" max="2000" value="600">
+                                <input type="number" id="heightInput" value="600" min="100" max="2000">
+                            </div>
+                            <div class="control-group">
+                                <label>Quality:</label>
+                                <input type="range" id="qualitySlider" min="10" max="100" value="85">
+                                <span id="qualityValue">85%</span>
+                            </div>
+                        </div>
+                        
+                        <button onclick="resizeImage()" class="btn-process">
+                            <i class="fas fa-crop-alt"></i> रीसाइज़ करें
+                        </button>
+                    </div>
+                    
+                    <div id="resizedImageResult" class="result-area" style="display: none;">
+                        <h4><i class="fas fa-check-circle"></i> रीसाइज़ की गई इमेज</h4>
+                        <div class="result-image">
+                            <img id="resizedImage" src="" alt="Resized">
+                        </div>
+                        <button onclick="downloadImage()" class="btn-download">
+                            <i class="fas fa-download"></i> इमेज डाउनलोड करें
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tool 3: Text Tools -->
+            <div class="tool-card">
+                <div class="tool-header">
+                    <div class="tool-icon" style="background: linear-gradient(135deg, #6C63FF, #4A44B5);">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3>टेक्स्ट टूल्स</h3>
+                </div>
+                <div class="tool-body">
+                    <p>टेक्स्ट एनालिसिस और एडिटिंग टूल्स</p>
+                    
+                    <textarea id="textInput" placeholder="यहाँ टेक्सट डालें या पेस्ट करें..." rows="6"></textarea>
+                    
+                    <div class="text-tools">
+                        <button onclick="countText()" class="btn-tool">
+                            <i class="fas fa-calculator"></i> शब्द गिनें
+                        </button>
+                        <button onclick="convertCase()" class="btn-tool">
+                            <i class="fas fa-text-height"></i> केस बदलें
+                        </button>
+                        <button onclick="removeSpaces()" class="btn-tool">
+                            <i class="fas fa-eraser"></i> स्पेस हटाएं
+                        </button>
+                        <button onclick="generateLorem()" class="btn-tool">
+                            <i class="fas fa-paragraph"></i> लोरेम टेक्स्ट
+                        </button>
+                    </div>
+                    
+                    <div id="textStats" class="stats-box">
+                        <div class="stat">
+                            <span class="stat-label">शब्द:</span>
+                            <span id="wordCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">वर्ण:</span>
+                            <span id="charCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">लाइनें:</span>
+                            <span id="lineCount" class="stat-value">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">पढ़ने का समय:</span>
+                            <span id="readTime" class="stat-value">0 मिनट</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-result">
+                        <h4><i class="fas fa-clipboard-check"></i> परिणाम</h4>
+                        <div class="result-actions">
+                            <button onclick="copyAllText()" class="btn-action">
+                                <i class="fas fa-copy"></i> सब कॉपी करें
+                            </button>
+                            <button onclick="clearText()" class="btn-action">
+                                <i class="fas fa-trash"></i> क्लियर करें
+                            </button>
+                            <button onclick="saveText()" class="btn-action">
+                                <i class="fas fa-save"></i> सेव करें
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <h2 class="section-title"><i class="fas fa-info-circle"></i> जानकारी</h2>
+        <div class="about-content">
+            <p>यह वेबसाइट 100% फ्री टूल्स प्रदान करती है। सभी टूल्स आपके ब्राउज़र में ही काम करते हैं, 
+            कोई डेटा सर्वर पर नहीं भेजा जाता। यह सुरक्षित, प्राइवेट और फास्ट है।</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>100% सुरक्षित</h3>
+                    <p>आपका डेटा आपके डिवाइस पर ही रहता है</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bolt"></i>
+                    <h3>फास्ट</h3>
+                    <p>तुरंत रिजल्ट - कोई वेटिंग नहीं</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>मोबाइल फ्रेंडली</h3>
+                    <p>सभी डिवाइस पर काम करता है</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-code"></i>
+                    <h3>ओपन सोर्स</h3>
+                    <p>GitHub पर फ्री कोड उपलब्ध</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-tools"></i> मेरी टूल्स</h3>
+                <p>फ्री और उपयोगी टूल्स का संग्रह</p>
+            </div>
+            <div class="footer-section">
+                <h3>लिंक्स</h3>
+                <a href="#tools">टूल्स</a>
+                <a href="#about">जानकारी</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+                <a href="#">प्राइवेसी पॉलिसी</a>
+            </div>
+            <div class="footer-section">
+                <h3>संपर्क</h3>
+                <p><i class="fas fa-envelope"></i> contact@example.com</p>
+                <p><i class="fas fa-globe"></i> www.mytools.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 मेरी टूल्स वेबसाइट. सभी अधिकार सुरक्षित.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+  </html>
