@@ -349,7 +349,361 @@
             outline: none;
         }
     </style>
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ग्राह वाहन बुकिंग</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navigation */
+        nav {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .logo i { color: #3498db; }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { background: #34495e; }
+        .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .user-btn { background: #27ae60; color: white; }
+        .admin-btn { background: #e74c3c; color: white; }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                        url('https://images.unsplash.com/photo-1563720223486-3294265d8b7c?auto=format&fit=crop&w=1200');
+            background-size: cover;
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            margin-top: 60px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        .primary-btn {
+            background: #3498db;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            margin: 10px;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #2c3e50;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        .feature-card i {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        
+        /* Vehicles */
+        .vehicles {
+            padding: 80px 0;
+        }
+        .vehicle-cards {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .vehicle-card {
+            width: 300px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .vehicle-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
+        }
+        .vehicle-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .vehicle-info {
+            padding: 20px;
+        }
+        .vehicle-type {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .capacity { color: #666; margin-bottom: 15px; }
+        .book-btn {
+            background: #27ae60;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        .footer-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+        }
+    </style>
 </head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-truck-moving"></i>
+                <span>ग्राह वाहन बुकिंग</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">होम</a>
+                <a href="#features">सुविधाएं</a>
+                <a href="#vehicles">वाहन</a>
+                <a href="#contact">संपर्क</a>
+                <div class="auth-buttons">
+                    <a href="user-login.html" class="btn user-btn">यूजर लॉगिन</a>
+                    <a href="admin-login.html" class="btn admin-btn">एडमिन लॉगिन</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>4-व्हीलर और 10-व्हीलर वाहन बुक करें</h1>
+            <p>आसान और तेज़ वाहन बुकिंग सिस्टम। कुछ ही क्लिक में ट्रक बुक करें और अपना सामान ट्रांसपोर्ट करें।</p>
+            <div class="cta-buttons">
+                <a href="user-login.html" class="btn primary-btn">वाहन बुक करें</a>
+                <a href="#how-it-works" class="btn" style="background: white; color: #2c3e50;">कैसे काम करता है?</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">हमारी विशेषताएं</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 बुकिंग</h3>
+                    <p>किसी भी समय वाहन बुक करें, 24 घंटे उपलब्ध सेवा</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>सुरक्षित भुगतान</h3>
+                    <p>सुरक्षित और आसान भुगतान विकल्प</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h3>24/7 सपोर्ट</h3>
+                    <p>हमारी टीम हमेशा आपकी मदद के लिए तैयार</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicles -->
+    <section class="vehicles" id="vehicles">
+        <div class="container">
+            <h2 class="section-title">हमारे वाहन</h2>
+            <div class="vehicle-cards">
+                <div class="vehicle-card">
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="4 Wheeler">
+                    <div class="vehicle-info">
+                        <h3 class="vehicle-type">4-व्हीलर ट्रक</h3>
+                        <p class="capacity">कैपेसिटी: 2-4 टन</p>
+                        <p>छोटे और मध्यम सामान के लिए उपयुक्त</p>
+                        <button class="book-btn" onclick="window.location.href='user-login.html'">बुक करें</button>
+                    </div>
+                </div>
+                <div class="vehicle-card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="10 Wheeler">
+                    <div class="vehicle-info">
+                        <h3 class="vehicle-type">10-व्हीलर ट्रक</h3>
+                        <p class="capacity">कैपेसिटी: 10-15 टन</p>
+                        <p>बड़े और भारी सामान के लिए उपयुक्त</p>
+                        <button class="book-btn" onclick="window.location.href='user-login.html'">बुक करें</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" id="how-it-works" style="padding: 80px 0; background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">कैसे काम करता है?</h2>
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                <div style="text-align: center; max-width: 250px;">
+                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">1</div>
+                    <h3>साइन अप करें</h3>
+                    <p>यूजर के रूप में रजिस्टर करें</p>
+                </div>
+                <div style="text-align: center; max-width: 250px;">
+                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">2</div>
+                    <h3>वाहन चुनें</h3>
+                    <p>4-व्हीलर या 10-व्हीलर सेलेक्ट करें</p>
+                </div>
+                <div style="text-align: center; max-width: 250px;">
+                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">3</div>
+                    <h3>बुकिंग करें</h3>
+                    <p>तारीख और समय चुनकर बुक करें</p>
+                </div>
+                <div style="text-align: center; max-width: 250px;">
+                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">4</div>
+                    <h3>कंफर्म करें</h3>
+                    <p>एडमिन से कंफर्मेशन प्राप्त करें</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ग्राह वाहन बुकिंग</h3>
+                    <p>वाहन बुकिंग की सबसे विश्वसनीय सेवा</p>
+                    <div style="margin-top: 20px;">
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>क्विक लिंक्स</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="index.html" style="color: #bdc3c7; text-decoration: none;">होम</a></li>
+                        <li><a href="#vehicles" style="color: #bdc3c7; text-decoration: none;">वाहन</a></li>
+                        <li><a href="#features" style="color: #bdc3c7; text-decoration: none;">सुविधाएं</a></li>
+                        <li><a href="user-login.html" style="color: #bdc3c7; text-decoration: none;">बुकिंग</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>संपर्क करें</h3>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> info@grahabooking.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> मुंबई, महाराष्ट्र</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ग्राह वाहन बुकिंग. सभी अधिकार सुरक्षित.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+                    </html></head>
 <body>
     <!-- Header -->
     <header class="header">
@@ -375,193 +729,4 @@
         </button>
     </div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- ========== AD 1: TOP AD ========== -->
-        <div class="ad-container">
-            <div class="ad-label">ADVERTISEMENT</div>
-            <div class="ad-content" id="topAd">
-                <div style="color: #FF6B6B; font-weight: bold; margin-bottom: 10px;">
-                    <i class="fas fa-ad"></i> AD SPACE
-                </div>
-                <p style="color: #666; margin-bottom: 15px;">
-                    Your support through ads keeps these tools free!
-                </p>
-                <button class="btn" onclick="loadAd('top')">
-                    <i class="fas fa-sync-alt"></i> Load Ad
-                </button>
-            </div>
-        </div>
 
-        <!-- ========== PDF TOOL SECTION ========== -->
-        <div id="pdf-tool" class="tool-section active">
-            <h2 class="tool-title" style="border-color: #FF416C;">
-                <i class="fas fa-file-pdf" style="color:#FF416C;"></i>
-                PDF Converter - 100% Working
-            </h2>
-            
-            <!-- File Upload -->
-            <div class="input-group">
-                <label for="pdfFile">
-                    <i class="fas fa-upload"></i> Upload PDF File
-                </label>
-                <div class="file-upload" onclick="document.getElementById('pdfFile').click()">
-                    <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #FF416C; margin-bottom: 15px;"></i>
-                    <p style="color: #666;">Click to upload PDF or drag & drop</p>
-                    <p style="color: #999; font-size: 14px; margin-top: 10px;">Max size: 10MB</p>
-                </div>
-                <input type="file" id="pdfFile" accept=".pdf" hidden onchange="previewPDF()">
-            </div>
-            
-            <!-- PDF Preview -->
-            <div id="pdfPreview" style="display: none; margin: 20px 0; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                <h4 style="color: #333; margin-bottom: 15px;">
-                    <i class="fas fa-file-alt"></i> PDF Preview
-                </h4>
-                <div id="pdfInfo" style="color: #666;"></div>
-            </div>
-            
-            <!-- Conversion Options -->
-            <div class="input-group">
-                <label>
-                    <i class="fas fa-exchange-alt"></i> Convert To
-                </label>
-                <select id="convertType">
-                    <option value="word">Word Document (.docx)</option>
-                    <option value="excel">Excel Spreadsheet (.xlsx)</option>
-                    <option value="image">Image (.jpg/.png)</option>
-                    <option value="text">Plain Text (.txt)</option>
-                    <option value="ppt">PowerPoint (.pptx)</option>
-                </select>
-            </div>
-            
-            <!-- Conversion Settings -->
-            <div class="result-grid">
-                <div class="input-group">
-                    <label>Quality</label>
-                    <select id="pdfQuality">
-                        <option value="high">High Quality</option>
-                        <option value="medium" selected>Medium Quality</option>
-                        <option value="low">Low Quality (Smaller File)</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label>Pages</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="number" id="fromPage" placeholder="From" min="1" value="1" style="width: 50%;">
-                        <input type="number" id="toPage" placeholder="To" min="1" value="all" style="width: 50%;">
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Convert Button -->
-            <button class="btn" onclick="convertPDF()" style="width: 100%;">
-                <i class="fas fa-magic"></i> Convert PDF Now
-            </button>
-            
-            <!-- Results -->
-            <div id="pdfResult" class="results">
-                <h3 style="color: #333; margin-bottom: 20px;">
-                    <i class="fas fa-check-circle" style="color: #4CAF50;"></i> Conversion Complete!
-                </h3>
-                <div class="result-grid">
-                    <div class="result-card">
-                        <div style="color: #666; font-size: 14px;">Original Size</div>
-                        <div class="result-value" id="originalSize">0 MB</div>
-                    </div>
-                    <div class="result-card">
-                        <div style="color: #666; font-size: 14px;">Converted Size</div>
-                        <div class="result-value" id="convertedSize">0 MB</div>
-                    </div>
-                    <div class="result-card">
-                        <div style="color: #666; font-size: 14px;">Time Taken</div>
-                        <div class="result-value" id="convertTime">0s</div>
-                    </div>
-                    <div class="result-card">
-                        <div style="color: #666; font-size: 14px;">Format</div>
-                        <div class="result-value" id="outputFormat">.docx</div>
-                    </div>
-                </div>
-                <button class="btn btn-success" onclick="downloadFile()" style="width: 100%; margin-top: 20px;">
-                    <i class="fas fa-download"></i> Download Converted File
-                </button>
-            </div>
-        </div>
-
-        <!-- ========== AD 2: MIDDLE AD ========== -->
-        <div class="ad-container">
-            <div class="ad-label">SPONSORED</div>
-            <div class="ad-content" id="middleAd">
-                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 10px; width: 100%;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
-                        <div style="background: white; width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-rocket" style="font-size: 24px; color: #764ba2;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: bold; font-size: 18px;">Fast Web Hosting</div>
-                            <div style="font-size: 14px; opacity: 0.9;">Get 50% off today</div>
-                        </div>
-                    </div>
-                    <button class="btn" onclick="adClicked()" style="width: 100%; background: white; color: #667eea; font-weight: bold;">
-                        <i class="fas fa-external-link-alt"></i> Get Deal Now
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ========== IMAGE TOOL SECTION ========== -->
-        <div id="image-tool" class="tool-section">
-            <h2 class="tool-title" style="border-color: #4CAF50;">
-                <i class="fas fa-image" style="color:#4CAF50;"></i>
-                Image Editor - 100% Working
-            </h2>
-            
-            <!-- Image Upload -->
-            <div class="input-group">
-                <label for="imageFile">
-                    <i class="fas fa-upload"></i> Upload Image
-                </label>
-                <div class="file-upload" onclick="document.getElementById('imageFile').click()">
-                    <i class="fas fa-image" style="font-size: 48px; color: #4CAF50; margin-bottom: 15px;"></i>
-                    <p style="color: #666;">Click to upload image (JPG, PNG, GIF)</p>
-                    <p style="color: #999; font-size: 14px; margin-top: 10px;">Max size: 5MB</p>
-                </div>
-                <input type="file" id="imageFile" accept="image/*" hidden onchange="previewImage()">
-            </div>
-            
-            <!-- Image Preview -->
-            <div id="imagePreviewContainer" class="image-preview" style="display: none;">
-                <img id="imagePreview" src="" alt="Preview">
-                <div id="imageInfo" style="margin-top: 15px; color: #666;"></div>
-            </div>
-            
-            <!-- Resize Controls -->
-            <div class="slider-group">
-                <label>
-                    <span><i class="fas fa-arrows-alt-h"></i> Width (px)</span>
-                    <span id="widthValue">800</span>
-                </label>
-                <input type="range" id="widthSlider" min="100" max="2000" value="800" oninput="updateWidth()">
-            </div>
-            
-            <div class="slider-group">
-                <label>
-                    <span><i class="fas fa-arrows-alt-v"></i> Height (px)</span>
-                    <span id="heightValue">600</span>
-                </label>
-                <input type="range" id="heightSlider" min="100" max="2000" value="600" oninput="updateHeight()">
-            </div>
-            
-            <div class="slider-group">
-                <label>
-                    <span><i class="fas fa-compress-alt"></i> Quality (%)</span>
-                    <span id="qualityValue">85%</span>
-                </label>
-                <input type="range" id="qualitySlider" min="10" max="100" value="85" oninput="updateQuality()">
-            </div>
-            
-            <!-- Format Options -->
-            <div class="input-group">
-                <label>
-                    <i class="fas fa-f
