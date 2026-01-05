@@ -1,732 +1,108 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Tools - PDF, Image, Text Converter</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        /* ========== RESET & BASE ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-            padding-bottom: 50px;
-        }
-        
-        /* ========== HEADER ========== */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .logo {
-            font-size: 38px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FF416C, #FF4B2B);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .tagline {
-            color: #666;
-            font-size: 18px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* ========== NAVIGATION ========== */
-        .nav-tabs {
-            display: flex;
-            justify-content: center;
-            background: white;
-            padding: 15px;
-            margin: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .tab-btn {
-            padding: 12px 25px;
-            background: #f8f9fa;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .tab-btn.active {
-            background: linear-gradient(135deg, #FF416C, #FF4B2B);
-            color: white;
-            transform: scale(1.05);
-        }
-        
-        /* ========== MAIN CONTAINER ========== */
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-        
-        /* ========== TOOL SECTIONS ========== */
-        .tool-section {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .tool-section.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .tool-title {
-            color: #333;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        /* ========== ADS CONTAINER ========== */
-        .ad-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px auto;
-            text-align: center;
-            border: 2px solid #4CAF50;
-            max-width: 728px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ad-label {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #4CAF50;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        
-        .ad-content {
-            padding: 20px;
-            min-height: 90px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        /* ========== INPUT STYLES ========== */
-        .input-group {
-            margin-bottom: 25px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 10px;
-            color: #555;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        input, select, textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        input:focus, select:focus, textarea:focus {
-            border-color: #FF416C;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.1);
-        }
-        
-        /* ========== BUTTONS ========== */
-        .btn {
-            padding: 15px 35px;
-            background: linear-gradient(135deg, #FF416C, #FF4B2B);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 65, 108, 0.3);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-        }
-        
-        /* ========== RESULTS ========== */
-        .results {
-            margin-top: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            display: none;
-        }
-        
-        .result-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .result-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        
-        .result-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #FF416C;
-            margin: 10px 0;
-        }
-        
-        /* ========== EARNINGS TRACKER ========== */
-        .earnings-tracker {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin: 30px auto;
-            max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        
-        .earnings-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-        
-        .earning-stat {
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            text-align: center;
-        }
-        
-        .earning-amount {
-            font-size: 28px;
-            font-weight: 700;
-            color: #4CAF50;
-            margin: 10px 0;
-        }
-        
-        /* ========== FOOTER ========== */
-        .footer {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            margin-top: 50px;
-        }
-        
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .nav-tabs {
-                flex-direction: column;
-            }
-            
-            .tab-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .earnings-stats {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* ========== FILE UPLOAD ========== */
-        .file-upload {
-            border: 3px dashed #ddd;
-            border-radius: 15px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #f8f9fa;
-        }
-        
-        .file-upload:hover {
-            border-color: #FF416C;
-            background: #fff5f7;
-        }
-        
-        /* ========== IMAGE PREVIEW ========== */
-        .image-preview {
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .image-preview img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        /* ========== SLIDER CONTROLS ========== */
-        .slider-group {
-            margin: 20px 0;
-        }
-        
-        .slider-group label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .slider-group input[type="range"] {
-            width: 100%;
-            height: 8px;
-            border-radius: 4px;
-            background: #e0e0e0;
-            outline: none;
-        }
-    </style>
-<!DOCTYPE html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ग्राह वाहन बुकिंग</title>
+    <title>Space Shooter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Navigation */
-        nav {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .logo i { color: #3498db; }
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .nav-links a:hover { background: #34495e; }
-        .btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .user-btn { background: #27ae60; color: white; }
-        .admin-btn { background: #e74c3c; color: white; }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-                        url('https://images.unsplash.com/photo-1563720223486-3294265d8b7c?auto=format&fit=crop&w=1200');
-            background-size: cover;
-            color: white;
-            padding: 150px 0 100px;
-            text-align: center;
-            margin-top: 60px;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
-        }
-        .primary-btn {
-            background: #3498db;
-            color: white;
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            margin: 10px;
-        }
-        
-        /* Features */
-        .features {
-            padding: 80px 0;
-            background: #f8f9fa;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            font-size: 2.5rem;
-            color: #2c3e50;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        .feature-card i {
-            font-size: 3rem;
-            color: #3498db;
-            margin-bottom: 20px;
-        }
-        
-        /* Vehicles */
-        .vehicles {
-            padding: 80px 0;
-        }
-        .vehicle-cards {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-        .vehicle-card {
-            width: 300px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: 0.3s;
-        }
-        .vehicle-card:hover {
-            border-color: #3498db;
-            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.2);
-        }
-        .vehicle-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .vehicle-info {
-            padding: 20px;
-        }
-        .vehicle-type {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        .capacity { color: #666; margin-bottom: 15px; }
-        .book-btn {
-            background: #27ae60;
-            color: white;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 50px 0 20px;
-        }
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-        .footer-section h3 {
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-        }
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #34495e;
-            color: #bdc3c7;
-        }
-    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fas fa-truck-moving"></i>
-                <span>ग्राह वाहन बुकिंग</span>
+    <div class="game-container">
+        <div class="game-header">
+            <h1><i class="fas fa-rocket"></i> SPACE SHOOTER</h1>
+            <div class="controls-info">
+                <p><i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> Move | <i class="fas fa-space-shuttle"></i> SPACE Shoot</p>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="active">होम</a>
-                <a href="#features">सुविधाएं</a>
-                <a href="#vehicles">वाहन</a>
-                <a href="#contact">संपर्क</a>
-                <div class="auth-buttons">
-                    <a href="user-login.html" class="btn user-btn">यूजर लॉगिन</a>
-                    <a href="admin-login.html" class="btn admin-btn">एडमिन लॉगिन</a>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-box">
+                <i class="fas fa-heart"></i>
+                <span id="health">100</span>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-crosshairs"></i>
+                <span id="score">0</span>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-skull"></i>
+                <span id="enemies">0</span>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-bolt"></i>
+                <span id="ammo">30</span>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-layer-group"></i>
+                <span id="level">1</span>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            <div class="controls">
+                <button id="leftBtn" class="control-btn"><i class="fas fa-arrow-left"></i></button>
+                <button id="shootBtn" class="control-btn shoot-btn"><i class="fas fa-bullseye"></i></button>
+                <button id="rightBtn" class="control-btn"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button id="startBtn" class="btn start-btn">
+                <i class="fas fa-play"></i> Start Game
+            </button>
+            <button id="pauseBtn" class="btn pause-btn">
+                <i class="fas fa-pause"></i> Pause
+            </button>
+            <button id="restartBtn" class="btn restart-btn">
+                <i class="fas fa-redo"></i> Restart
+            </button>
+            <div class="difficulty">
+                <label for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> How to Play</h3>
+            <ul>
+                <li>Use <strong>Arrow Keys</strong> or <strong>Left/Right Buttons</strong> to move your spaceship</li>
+                <li>Press <strong>SPACEBAR</strong> or <strong>Shoot Button</strong> to fire bullets</li>
+                <li>Avoid enemy ships and their bullets</li>
+                <li>Destroy enemies to earn points</li>
+                <li>Collect power-ups for special abilities</li>
+                <li>Each level increases difficulty</li>
+            </ul>
+        </div>
+
+        <div class="power-ups">
+            <h3><i class="fas fa-star"></i> Power-ups</h3>
+            <div class="powerup-icons">
+                <div class="powerup-icon" title="Health Pack">
+                    <i class="fas fa-heartbeat"></i> +25 Health
+                </div>
+                <div class="powerup-icon" title="Rapid Fire">
+                    <i class="fas fa-bolt"></i> Rapid Fire
+                </div>
+                <div class="powerup-icon" title="Shield">
+                    <i class="fas fa-shield-alt"></i> Shield
+                </div>
+                <div class="powerup-icon" title="Extra Ammo">
+                    <i class="fas fa-boxes"></i> +50 Ammo
                 </div>
             </div>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>4-व्हीलर और 10-व्हीलर वाहन बुक करें</h1>
-            <p>आसान और तेज़ वाहन बुकिंग सिस्टम। कुछ ही क्लिक में ट्रक बुक करें और अपना सामान ट्रांसपोर्ट करें।</p>
-            <div class="cta-buttons">
-                <a href="user-login.html" class="btn primary-btn">वाहन बुक करें</a>
-                <a href="#how-it-works" class="btn" style="background: white; color: #2c3e50;">कैसे काम करता है?</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2 class="section-title">हमारी विशेषताएं</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>24/7 बुकिंग</h3>
-                    <p>किसी भी समय वाहन बुक करें, 24 घंटे उपलब्ध सेवा</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-shield-alt"></i>
-                    <h3>सुरक्षित भुगतान</h3>
-                    <p>सुरक्षित और आसान भुगतान विकल्प</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-headset"></i>
-                    <h3>24/7 सपोर्ट</h3>
-                    <p>हमारी टीम हमेशा आपकी मदद के लिए तैयार</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Vehicles -->
-    <section class="vehicles" id="vehicles">
-        <div class="container">
-            <h2 class="section-title">हमारे वाहन</h2>
-            <div class="vehicle-cards">
-                <div class="vehicle-card">
-                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=600&q=80" alt="4 Wheeler">
-                    <div class="vehicle-info">
-                        <h3 class="vehicle-type">4-व्हीलर ट्रक</h3>
-                        <p class="capacity">कैपेसिटी: 2-4 टन</p>
-                        <p>छोटे और मध्यम सामान के लिए उपयुक्त</p>
-                        <button class="book-btn" onclick="window.location.href='user-login.html'">बुक करें</button>
-                    </div>
-                </div>
-                <div class="vehicle-card">
-                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=600&q=80" alt="10 Wheeler">
-                    <div class="vehicle-info">
-                        <h3 class="vehicle-type">10-व्हीलर ट्रक</h3>
-                        <p class="capacity">कैपेसिटी: 10-15 टन</p>
-                        <p>बड़े और भारी सामान के लिए उपयुक्त</p>
-                        <button class="book-btn" onclick="window.location.href='user-login.html'">बुक करें</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How it Works -->
-    <section class="how-it-works" id="how-it-works" style="padding: 80px 0; background: #f8f9fa;">
-        <div class="container">
-            <h2 class="section-title">कैसे काम करता है?</h2>
-            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                <div style="text-align: center; max-width: 250px;">
-                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">1</div>
-                    <h3>साइन अप करें</h3>
-                    <p>यूजर के रूप में रजिस्टर करें</p>
-                </div>
-                <div style="text-align: center; max-width: 250px;">
-                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">2</div>
-                    <h3>वाहन चुनें</h3>
-                    <p>4-व्हीलर या 10-व्हीलर सेलेक्ट करें</p>
-                </div>
-                <div style="text-align: center; max-width: 250px;">
-                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">3</div>
-                    <h3>बुकिंग करें</h3>
-                    <p>तारीख और समय चुनकर बुक करें</p>
-                </div>
-                <div style="text-align: center; max-width: 250px;">
-                    <div style="background: #3498db; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; margin: 0 auto 20px; font-size: 1.5rem;">4</div>
-                    <h3>कंफर्म करें</h3>
-                    <p>एडमिन से कंफर्मेशन प्राप्त करें</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>ग्राह वाहन बुकिंग</h3>
-                    <p>वाहन बुकिंग की सबसे विश्वसनीय सेवा</p>
-                    <div style="margin-top: 20px;">
-                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-facebook"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-twitter"></i></a>
-                        <a href="#" style="color: white; margin-right: 15px;"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>क्विक लिंक्स</h3>
-                    <ul style="list-style: none;">
-                        <li><a href="index.html" style="color: #bdc3c7; text-decoration: none;">होम</a></li>
-                        <li><a href="#vehicles" style="color: #bdc3c7; text-decoration: none;">वाहन</a></li>
-                        <li><a href="#features" style="color: #bdc3c7; text-decoration: none;">सुविधाएं</a></li>
-                        <li><a href="user-login.html" style="color: #bdc3c7; text-decoration: none;">बुकिंग</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>संपर्क करें</h3>
-                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
-                    <p><i class="fas fa-envelope"></i> info@grahabooking.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> मुंबई, महाराष्ट्र</p>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 ग्राह वाहन बुकिंग. सभी अधिकार सुरक्षित.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 70,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-                    </html></head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <i class="fas fa-tools"></i> Free Online Tools
-        </div>
-        <p class="tagline">PDF Converter • Image Editor • Text Tools • 100% Working</p>
-    </header>
-
-    <!-- Navigation -->
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="showTool('pdf')">
-            <i class="fas fa-file-pdf"></i> PDF Tools
-        </button>
-        <button class="tab-btn" onclick="showTool('image')">
-            <i class="fas fa-image"></i> Image Tools
-        </button>
-        <button class="tab-btn" onclick="showTool('text')">
-            <i class="fas fa-font"></i> Text Tools
-        </button>
-        <button class="tab-btn" onclick="showTool('more')">
-            <i class="fas fa-plus"></i> More Tools
-        </button>
     </div>
 
+    <div class="mobile-warning">
+        <p>For best experience, play on desktop or rotate your device to landscape mode.</p>
+    </div>
 
+    <script src="game.js"></script>
+</body>
+</html>
