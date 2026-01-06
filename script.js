@@ -1,107 +1,565 @@
-// Initialize canvas
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-
-// Set canvas to full screen
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-// Game state
-let game = {
-    running: false,
-    score: 0,
-    level: 1,
-    health: 100,
-    ammo: 30,
-    enemiesDestroyed: 0,
-    difficulty: 'medium',
-    powerUps: [],
-    stars: []
-};
-
-// Player
-const player = {
-    x: canvas.width / 2 - 25,
-    y: canvas.height - 100,
-    width: 50,
-    height: 60,
-    speed: 8,
-    bullets: [],
-    lastShot: 0,
-    shootDelay: 300,
-    hasShield: false,
-    shieldTime: 0
-};
-
-// Enemies
-let enemies = [];
-let enemyBullets = [];
-
-// Input handling
-const keys = {
-    ArrowLeft: false,
-    ArrowRight: false,
-    ' ': false,
-    a: false,
-    d: false
-};
-
-// Difficulty settings
-const difficultySettings = {
-    easy: { enemySpeed: 2, spawnRate: 90, enemyHealth: 1, enemyShootRate: 2000 },
-    medium: { enemySpeed: 3, spawnRate: 60, enemyHealth: 2, enemyShootRate: 1500 },
-    hard: { enemySpeed: 4, spawnRate: 40, enemyHealth: 3, enemyShootRate: 1000 }
-};
-
-// UI Elements
-const startScreen = document.getElementById('startScreen');
-const gameOverScreen = document.getElementById('gameOverScreen');
-const startBtn = document.getElementById('startBtn');
-const restartBtn = document.getElementById('restartBtn');
-const leftBtn = document.getElementById('leftBtn');
-const rightBtn = document.getElementById('rightBtn');
-const shootBtn = document.getElementById('shootBtn');
-
-// Initialize stars for background
-function initStars() {
-    game.stars = [];
-    for (let i = 0; i < 200; i++) {
-        game.stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 3,
-            speed: Math.random() * 2 + 1
-        });
-    }
-}
-
-// Draw stars
-function drawStars() {
-    ctx.fillStyle = '#ffffff';
-    game.stars.forEach(star => {
-        star.y += star.speed;
-        if (star.y > canvas.height) {
-            star.y = 0;
-            star.x = Math.random() * canvas.width;
-        }
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-    });
-}
-
-// Draw player
-function drawPlayer() {
-    ctx.save();
+// Game Configuration
+const CONFIG = {
+    // Game Settings
+    INITIAL_TIME: 60,
+    INITIAL_BUBBLES: 50,
+    INITIAL_SCORE: 0,
+    INITIAL_LEVEL: 1,
     
-    // Shield effect
-    if (player.hasShield) {
-        ctx.strokeStyle = 'rgba(0, 255, 255, 0.6)';
-        ctx.lineWidth = 4;
+    // Bubble Settings
+    BUBBLE_RADIUS: 35,
+    BUBBLE_SPEED: 15,
+    MAX_ANGLE: 60,
+    
+    // Scoring
+    BASE_POINTS: 100,
+    COMBO_MULTIPLIER: 1.5,
+    WORD_BONUS: 500,
+    TIME_BONUS: 10,
+    
+    // Game Colors
+    COLORS: {
+        A: ['#ff6b6b', '#ff3838'],
+        B: ['#ff9f43', '#ff8a33'],
+        C: ['#ffe66d', '#ffd93d'],
+        D: ['#1dd1a1', '#10ac84'],
+        E: ['#54a0ff', '#2e86de'],
+        F: ['#9b59b6', '#8e44ad'],
+        G: ['#ff9ff3', '#f368e0'],
+        H: ['#00cec9', '#00b894'],
+        I: ['#fd79a8', '#e84393'],
+        J: ['#fdcb6e', '#fdcb6e'],
+        K: ['#a29bfe', '#6c5ce7'],
+        L: ['#81ecec', '#00cec9'],
+        M: ['#fab1a0', '#e17055'],
+        N: ['#74b9ff', '#0984e3'],
+        O: ['#55efc4', '#00b894'],
+        P: ['#ffeaa7', '#fdcb6e'],
+        Q: ['#a29bfe', '#6c5ce7'],
+        R: ['#fd79a8', '#e84393'],
+        S: ['#dfe6e9', '#b2bec3'],
+        T: ['#81ecec', '#00cec9'],
+        U: ['#55efc4', '#00b894'],
+        V: ['#74b9ff', '#0984e3'],
+        W: ['#ffeaa7', '#fdcb6e'],
+        X: ['#fab1a0', '#e17055'],
+        Y: ['#a29bfe', '#6c5ce7'],
+        Z: ['#ff6b6b', '#ff3838']
+    },
+    
+    // Difficulty Settings
+    DIFFICULTY: {
+        easy: { speed: 1, timeBonus: 20 },
+        medium: { speed: 1.5, timeBonus: 15 },
+        hard: { speed: 2, timeBonus: 10 }
+    }
+};
+
+// Game State
+class GameState {
+    constructor() {
+        this.score = CONFIG.INITIAL_SCORE;
+        this.level = CONFIG.INITIAL_LEVEL;
+        this.timeLeft = CONFIG.INITIAL_TIME;
+        this.bubblesLeft = CONFIG.INITIAL_BUBBLES;
+        this.gameActive = false;
+        this.gamePaused = false;
+        this.difficulty = 'easy';
+        
+        // Game Elements
+        this.currentAngle = 0;
+        this.currentPower = 100;
+        this.currentLetter = 'A';
+        this.nextLetters = ['B', 'C', 'D'];
+        this.bubbles = [];
+        this.shootingBubble = null;
+        this.timerInterval = null;
+        
+        // Statistics
+        this.shotsFired = 0;
+        this.shotsHit = 0;
+        this.bubblesPopped = 0;
+        this.wordsFormed = 0;
+        this.comboCount = 0;
+        
+        // DOM Elements
+        this.initElements();
+        this.initEventListeners();
+        this.createStars();
+        this.showWelcomeModal();
+    }
+    
+    initElements() {
+        // Game Stats
+        this.scoreElement = document.getElementById('score');
+        this.levelElement = document.getElementById('level');
+        this.timerElement = document.getElementById('timer');
+        this.bubblesElement = document.getElementById('bubbles');
+        
+        // Game Controls
+        this.angleValue = document.getElementById('angleValue');
+        this.powerValue = document.getElementById('powerValue');
+        this.powerFill = document.getElementById('powerFill');
+        this.currentLetterElement = document.getElementById('currentLetter');
+        
+        // Game Board
+        this.gameBoard = document.getElementById('gameBoard');
+        this.bubblesContainer = document.getElementById('bubblesContainer');
+        this.gunBarrel = document.getElementById('gunBarrel');
+        this.aimLine = document.getElementById('aimLine');
+        
+        // Buttons
+        this.shootBtn = document.getElementById('shootBtn');
+        this.aimLeftBtn = document.getElementById('aimLeft');
+        this.aimRightBtn = document.getElementById('aimRight');
+        this.changeBubbleBtn = document.getElementById('changeBubble');
+        this.powerUpBtn = document.getElementById('powerUp');
+        this.restartBtn = document.getElementById('restartBtn');
+        
+        // Modals
+        this.welcomeModal = document.getElementById('welcomeModal');
+        this.gameOverModal = document.getElementById('gameOverModal');
+        this.levelCompleteModal = document.getElementById('levelCompleteModal');
+        
+        // Modal Buttons
+        this.startGameBtn = document.getElementById('startGameBtn');
+        this.playAgainBtn = document.getElementById('playAgainBtn');
+        this.mainMenuBtn = document.getElementById('mainMenuBtn');
+        this.nextLevelBtn = document.getElementById('nextLevelBtn');
+        
+        // Next Bubbles
+        this.nextBubbleElements = [
+            document.getElementById('nextBubble1'),
+            document.getElementById('nextBubble2'),
+            document.getElementById('nextBubble3')
+        ];
+        
+        // Message Display
+        this.messageDisplay = document.getElementById('messageDisplay');
+        
+        // Particles Container
+        this.particlesContainer = document.getElementById('particlesContainer');
+    }
+    
+    initEventListeners() {
+        // Game Controls
+        this.shootBtn.addEventListener('click', () => this.shootBubble());
+        this.aimLeftBtn.addEventListener('click', () => this.rotateGun(-5));
+        this.aimRightBtn.addEventListener('click', () => this.rotateGun(5));
+        this.changeBubbleBtn.addEventListener('click', () => this.changeCurrentBubble());
+        this.powerUpBtn.addEventListener('click', () => this.activatePowerUp());
+        this.restartBtn.addEventListener('click', () => this.restartLevel());
+        
+        // Header Controls
+        document.getElementById('soundBtn').addEventListener('click', this.toggleSound);
+        document.getElementById('pauseBtn').addEventListener('click', () => this.togglePause());
+        document.getElementById('helpBtn').addEventListener('click', () => this.showHelp());
+        document.getElementById('fullscreenBtn').addEventListener('click', this.toggleFullscreen);
+        
+        // Modal Controls
+        this.startGameBtn.addEventListener('click', () => this.startGame());
+        this.playAgainBtn.addEventListener('click', () => this.restartGame());
+        this.mainMenuBtn.addEventListener('click', () => this.showWelcomeModal());
+        this.nextLevelBtn.addEventListener('click', () => this.nextLevel());
+        
+        // Difficulty Selection
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                this.difficulty = e.target.dataset.difficulty;
+            });
+        });
+        
+        // Mouse Controls
+        this.gameBoard.addEventListener('mousemove', (e) => this.handleMouseMove(e));
+        this.gameBoard.addEventListener('click', (e) => {
+            if (e.target === this.gameBoard || e.target.classList.contains('bubbles-container')) {
+                this.shootBubble();
+            }
+        });
+        
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => this.handleKeyDown(e));
+        
+        // Touch Controls for Mobile
+        this.gameBoard.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
+        this.gameBoard.addEventListener('touchmove', (e) => this.handleTouchMove(e), { passive: false });
+    }
+    
+    // ===== GAME INITIALIZATION =====
+    createStars() {
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = star.style.height = Math.random() * 3 + 1 + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.opacity = Math.random() * 0.5 + 0.2;
+            star.style.animationDuration = Math.random() * 3 + 2 + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+    }
+    
+    showWelcomeModal() {
+        this.gameActive = false;
+        this.welcomeModal.classList.add('active');
+        this.gameOverModal.classList.remove('active');
+        this.levelCompleteModal.classList.remove('active');
+    }
+    
+    startGame() {
+        this.resetGame();
+        this.welcomeModal.classList.remove('active');
+        this.gameActive = true;
+        this.createInitialBubbles();
+        this.updateUI();
+        this.startTimer();
+        this.showMessage('Game Started! Good Luck!', 'info');
+    }
+    
+    resetGame() {
+        this.score = CONFIG.INITIAL_SCORE;
+        this.level = CONFIG.INITIAL_LEVEL;
+        this.timeLeft = CONFIG.INITIAL_TIME;
+        this.bubblesLeft = CONFIG.INITIAL_BUBBLES;
+        
+        this.currentAngle = 0;
+        this.currentPower = 100;
+        this.currentLetter = this.getRandomLetter();
+        this.nextLetters = [this.getRandomLetter(), this.getRandomLetter(), this.getRandomLetter()];
+        
+        this.shotsFired = 0;
+        this.shotsHit = 0;
+        this.bubblesPopped = 0;
+        this.wordsFormed = 0;
+        this.comboCount = 0;
+        
+        // Clear bubbles
+        this.bubblesContainer.innerHTML = '';
+        this.bubbles = [];
+        
+        // Reset gun position
+        this.gunBarrel.style.transform = 'translateX(-50%) rotate(0deg)';
+        this.updateAimLine();
+        
+        // Update UI
+        this.updateUI();
+    }
+    
+    // ===== GAME LOGIC =====
+    rotateGun(angle) {
+        if (!this.gameActive || this.gamePaused) return;
+        
+        this.currentAngle += angle;
+        this.currentAngle = Math.max(-CONFIG.MAX_ANGLE, Math.min(CONFIG.MAX_ANGLE, this.currentAngle));
+        
+        this.gunBarrel.style.transform = `translateX(-50%) rotate(${this.currentAngle}deg)`;
+        this.updateAimLine();
+        this.angleValue.textContent = `${this.currentAngle}°`;
+    }
+    
+    updateAimLine() {
+        const angleRad = (this.currentAngle * Math.PI) / 180;
+        const length = 400;
+        
+        this.aimLine.style.height = `${length}px`;
+        this.aimLine.style.transform = `translateX(-50%) rotate(${this.currentAngle}deg)`;
+    }
+    
+    shootBubble() {
+        if (!this.gameActive || this.gamePaused || this.bubblesLeft <= 0 || this.shootingBubble) return;
+        
+        this.shotsFired++;
+        this.bubblesLeft--;
+        
+        // Create shooting bubble
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble shooting';
+        bubble.setAttribute('data-letter', this.currentLetter);
+        
+        const bubbleLetter = document.createElement('span');
+        bubbleLetter.className = 'bubble-letter';
+        bubbleLetter.textContent = this.currentLetter;
+        bubble.appendChild(bubbleLetter);
+        
+        // Position at gun tip
+        const gunRect = this.gunBarrel.getBoundingClientRect();
+        const gameBoardRect = this.gameBoard.getBoundingClientRect();
+        
+        const startX = gunRect.left + gunRect.width / 2 - gameBoardRect.left;
+        const startY = gunRect.top - gameBoardRect.top;
+        
+        bubble.style.left = `${startX}px`;
+        bubble.style.top = `${startY}px`;
+        bubble.style.background = this.getBubbleGradient(this.currentLetter);
+        
+        this.bubblesContainer.appendChild(bubble);
+        this.shootingBubble = bubble;
+        
+        // Create shooting particles
+        this.createParticles(startX, startY, this.currentLetter, 10, 'shoot');
+        
+        // Calculate trajectory
+        const angleRad = (this.currentAngle * Math.PI) / 180;
+        const speed = CONFIG.BUBBLE_SPEED * CONFIG.DIFFICULTY[this.difficulty].speed;
+        
+        const shootBubble = () => {
+            const currentX = parseFloat(bubble.style.left);
+            const currentY = parseFloat(bubble.style.top);
+            
+            const newX = currentX + Math.sin(angleRad) * speed;
+            const newY = currentY + Math.cos(angleRad) * speed * -1;
+            
+            bubble.style.left = `${newX}px`;
+            bubble.style.top = `${newY}px`;
+            
+            // Check boundaries
+            if (newX < 0 || newX > gameBoardRect.width || newY < 0) {
+                this.attachBubble(bubble, newX, newY);
+                return;
+            }
+            
+            // Check collision
+            const collision = this.checkCollision(bubble, newX, newY);
+            if (collision) {
+                this.handleCollision(bubble, collision);
+                return;
+            }
+            
+            // Continue animation
+            if (this.gameActive && !this.gamePaused) {
+                requestAnimationFrame(shootBubble);
+            }
+        };
+        
+        requestAnimationFrame(shootBubble);
+        this.updateUI();
+    }
+    
+    checkCollision(bubble, x, y) {
+        const bubbleSize = CONFIG.BUBBLE_RADIUS * 2;
+        
+        for (const existingBubble of this.bubbles) {
+            const distance = Math.sqrt(
+                Math.pow(x - existingBubble.x, 2) + Math.pow(y - existingBubble.y, 2)
+            );
+            
+            if (distance < bubbleSize) {
+                return existingBubble;
+            }
+        }
+        
+        // Check wall collisions
+        if (x < bubbleSize || x > this.gameBoard.clientWidth - bubbleSize) {
+            return { x, y, isWall: true };
+        }
+        
+        return null;
+    }
+    
+    handleCollision(bubble, target) {
+        // Remove shooting animation
+        bubble.classList.remove('shooting');
+        
+        let attachX, attachY;
+        
+        if (target.isWall) {
+            // Bounce off wall
+            this.currentAngle = -this.currentAngle;
+            this.gunBarrel.style.transform = `translateX(-50%) rotate(${this.currentAngle}deg)`;
+            this.updateAimLine();
+            this.angleValue.textContent = `${this.currentAngle}°`;
+            bubble.remove();
+            this.shootingBubble = null;
+            return;
+        } else {
+            // Attach to existing bubble
+            attachX = target.x;
+            attachY = target.y;
+            
+            // Calculate exact attachment position
+            const angle = Math.atan2(target.y - parseFloat(bubble.style.top), target.x - parseFloat(bubble.style.left));
+            attachX = target.x - Math.cos(angle) * CONFIG.BUBBLE_RADIUS * 2;
+            attachY = target.y - Math.sin(angle) * CONFIG.BUBBLE_RADIUS * 2;
+        }
+        
+        // Create attached bubble
+        const attachedBubble = {
+            element: bubble,
+            letter: this.currentLetter,
+            x: attachX,
+            y: attachY,
+            neighbors: []
+        };
+        
+        this.bubbles.push(attachedBubble);
+        
+        // Position bubble
+        bubble.style.left = `${attachX - CONFIG.BUBBLE_RADIUS}px`;
+        bubble.style.top = `${attachY - CONFIG.BUBBLE_RADIUS}px`;
+        bubble.style.position = 'absolute';
+        bubble.style.animation = 'none';
+        
+        // Add click event
+        bubble.addEventListener('click', () => this.popBubble(attachedBubble));
+        
+        // Check for matches
+        this.checkForMatches(attachedBubble);
+        
+        // Update current bubble
+        this.currentLetter = this.nextLetters.shift();
+        this.nextLetters.push(this.getRandomLetter());
+        
+        this.shootingBubble = null;
+        this.updateUI();
+        
+        // Check level complete
+        if (this.bubblesLeft <= 0) {
+            setTimeout(() => this.checkLevelComplete(), 500);
+        }
+    }
+    
+    attachBubble(bubble, x, y) {
+        if (!bubble) {
+            bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.setAttribute('data-letter', this.currentLetter);
+            
+            const bubbleLetter = document.createElement('span');
+            bubbleLetter.className = 'bubble-letter';
+            bubbleLetter.textContent = this.currentLetter;
+            bubble.appendChild(bubbleLetter);
+            
+            bubble.style.background = this.getBubbleGradient(this.currentLetter);
+            this.bubblesContainer.appendChild(bubble);
+        }
+        
+        const attachedBubble = {
+            element: bubble,
+            letter: this.currentLetter,
+            x: x,
+            y: y,
+            neighbors: []
+        };
+        
+        this.bubbles.push(attachedBubble);
+        
+        bubble.style.left = `${x - CONFIG.BUBBLE_RADIUS}px`;
+        bubble.style.top = `${y - CONFIG.BUBBLE_RADIUS}px`;
+        bubble.style.position = 'absolute';
+        
+        bubble.addEventListener('click', () => this.popBubble(attachedBubble));
+        
+        // Check for matches
+        this.checkForMatches(attachedBubble);
+        
+        // Update current bubble
+        this.currentLetter = this.nextLetters.shift();
+        this.nextLetters.push(this.getRandomLetter());
+        
+        this.shootingBubble = null;
+        this.updateUI();
+    }
+    
+    checkForMatches(startBubble) {
+        const visited = new Set();
+        const matches = [];
+        const letter = startBubble.letter;
+        
+        const findMatches = (bubble) => {
+            if (!bubble || visited.has(bubble) || bubble.letter !== letter) return;
+            
+            visited.add(bubble);
+            matches.push(bubble);
+            
+            // Find neighbors
+            const neighbors = this.bubbles.filter(b => 
+                !visited.has(b) &&
+                Math.sqrt(Math.pow(b.x - bubble.x, 2) + Math.pow(b.y - bubble.y, 2)) < CONFIG.BUBBLE_RADIUS * 2.2
+            );
+            
+            neighbors.forEach(neighbor => findMatches(neighbor));
+        };
+        
+        findMatches(startBubble);
+        
+        if (matches.length >= 3) {
+            this.popBubbles(matches);
+            this.checkWordFormation(matches);
+        }
+    }
+    
+    popBubbles(bubbles) {
+        const points = Math.floor(bubbles.length * CONFIG.BASE_POINTS * (1 + this.comboCount * 0.5));
+        this.score += points;
+        this.shotsHit += bubbles.length;
+        this.bubblesPopped += bubbles.length;
+        this.comboCount++;
+        
+        // Show score popup
+        this.showScorePopup(bubbles[0].x, bubbles[0].y, points);
+        
+        // Pop each bubble with delay
+        bubbles.forEach((bubble, index) => {
+            setTimeout(() => {
+                this.popBubble(bubble, true);
+            }, index * 100);
+        });
+        
+        // Show combo message
+        if (this.comboCount > 1) {
+            this.showMessage(`COMBO x${this.comboCount}! +${points} points`, 'combo');
+        }
+        
+        this.updateUI();
+    }
+    
+    popBubble(bubble, isMatch = false) {
+        if (!bubble.element) return;
+        
+        const x = bubble.x;
+        const y = bubble.y;
+        const letter = bubble.letter;
+        
+        // Create explosion particles
+        this.createParticles(x, y, letter, 20, 'explosion');
+        
+        // Remove bubble
+        bubble.element.remove();
+        const index = this.bubbles.indexOf(bubble);
+        if (index > -1) {
+            this.bubbles.splice(index, 1);
+        }
+        
+        if (!isMatch) {
+            this.score += CONFIG.BASE_POINTS;
+            this.bubblesPopped++;
+            this.updateUI();
+        }
+        
+        // Check level complete
+        if (this.bubbles.length === 0) {
+            setTimeout(() => this.checkLevelComplete(), 500);
+        }
+    }
+    
+    checkWordFormation(bubbles) {
+        // Sort bubbles by x position
+        const sorted = [...bubbles].sort((a, b) => a.x - b.x);
+        const word = sorted.map(b => b.letter).join('');
+        
+        // Common 3-letter words
+        const words = ['CAT', 'DOG', 'BAT', 'BALL', 'CAR', 'SUN', 'MOON', 'STAR', 'TREE', 'FISH'];
+        
+        if (words.includes(word)) {
+            const bonus = CONFIG.WORD_BONUS * this.level;
+            this.score += bonus;
+            this.wordsFormed++;
+            
+            this.showWordBonus(        ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(player.x + player.width / 2, player.y + player.height / 2, 40, 0, Math.PI * 2);
         ctx.stroke();
