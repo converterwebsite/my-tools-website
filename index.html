@@ -3,105 +3,374 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Shooter Game</title>
-    <style>
-        /* RESET & BASE STYLES */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <title>Bubble Puzzle A-Z - 3D Shooting Game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
+</head>
+<body>
+    <!-- Star Background -->
+    <div class="stars" id="stars"></div>
 
-        body {
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            background: #000;
-            width: 100vw;
-            height: 100vh;
-        }
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="game-title">
+                <i class="fas fa-bubbles"></i>
+                <h1>BUBBLE PUZZLE <span class="az-text">A-Z</span></h1>
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="header-controls">
+                <button class="header-btn" id="soundBtn" title="Sound">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="header-btn" id="pauseBtn" title="Pause">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button class="header-btn" id="helpBtn" title="Help">
+                    <i class="fas fa-question"></i>
+                </button>
+                <button class="header-btn" id="fullscreenBtn" title="Fullscreen">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </header>
 
-        /* GAME CONTAINER */
-        #gameContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-        }
+        <!-- Game Stats -->
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-icon trophy">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">SCORE</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon flag">
+                    <i class="fas fa-flag"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">LEVEL</div>
+                    <div class="stat-value" id="level">1</div>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon clock">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">TIME</div>
+                    <div class="stat-value" id="timer">60</div>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon bubble">
+                    <i class="fas fa-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-label">BUBBLES</div>
+                    <div class="stat-value" id="bubbles">50</div>
+                </div>
+            </div>
+        </div>
 
-        /* CANVAS */
-        #gameCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+        <!-- Game Area -->
+        <div class="game-area">
+            <!-- Game Board -->
+            <div class="game-board" id="gameBoard">
+                <div class="bubbles-container" id="bubblesContainer">
+                    <!-- Bubbles will be generated here -->
+                </div>
+                
+                <!-- Aim Line -->
+                <div class="aim-line" id="aimLine"></div>
+                
+                <!-- Bubble Gun -->
+                <div class="bubble-gun">
+                    <div class="gun-base">
+                        <div class="gun-barrel" id="gunBarrel">
+                            <div class="gun-tip"></div>
+                        </div>
+                        <div class="gun-body">
+                            <div class="current-bubble-display">
+                                <div class="current-bubble" id="currentBubble">
+                                    <span class="bubble-letter" id="currentLetter">A</span>
+                                </div>
+                                <div class="bubble-label">READY!</div>
+                            </div>
+                            <div class="shoot-control">
+                                <button class="shoot-btn" id="shootBtn">
+                                    <i class="fas fa-bullseye"></i>
+                                    <span class="shoot-text">SHOOT</span>
+                                </button>
+                                <div class="power-indicator">
+                                    <div class="power-bar">
+                                        <div class="power-fill" id="powerFill"></div>
+                                    </div>
+                                    <div class="power-text">POWER: <span id="powerValue">100%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        /* HUD (Heads Up Display) */
-        #hud {
-            position: fixed;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            z-index: 100;
-            color: white;
-            font-size: 20px;
-            text-shadow: 0 0 5px #000;
-        }
+            <!-- Controls Panel -->
+            <div class="controls-panel">
+                <!-- Angle Controls -->
+                <div class="angle-controls-section">
+                    <div class="section-title">
+                        <i class="fas fa-crosshairs"></i>
+                        AIM CONTROLS
+                    </div>
+                    <div class="angle-display">
+                        <div class="angle-value-display">
+                            <i class="fas fa-angle-double-right"></i>
+                            ANGLE: <span id="angleValue">0°</span>
+                        </div>
+                    </div>
+                    <div class="angle-buttons">
+                        <button class="angle-btn left" id="aimLeft">
+                            <i class="fas fa-arrow-left"></i>
+                            LEFT
+                        </button>
+                        <div class="angle-center">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <button class="angle-btn right" id="aimRight">
+                            RIGHT
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
 
-        .hud-item {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: 2px solid #00ffff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+                <!-- Next Bubbles -->
+                <div class="next-bubbles-section">
+                    <div class="section-title">
+                        <i class="fas fa-eye"></i>
+                        NEXT BUBBLES
+                    </div>
+                    <div class="next-bubbles-container">
+                        <div class="next-bubble-item">
+                            <div class="next-label">1st</div>
+                            <div class="next-bubble" id="nextBubble1">
+                                <span class="bubble-letter">B</span>
+                            </div>
+                        </div>
+                        <div class="next-bubble-item">
+                            <div class="next-label">2nd</div>
+                            <div class="next-bubble" id="nextBubble2">
+                                <span class="bubble-letter">C</span>
+                            </div>
+                        </div>
+                        <div class="next-bubble-item">
+                            <div class="next-label">3rd</div>
+                            <div class="next-bubble" id="nextBubble3">
+                                <span class="bubble-letter">D</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        .hud-item i {
-            color: #00ffff;
-        }
+                <!-- Action Buttons -->
+                <div class="action-buttons-section">
+                    <button class="action-btn change-btn" id="changeBubble">
+                        <i class="fas fa-random"></i>
+                        CHANGE BUBBLE
+                    </button>
+                    <button class="action-btn powerup-btn" id="powerUp">
+                        <i class="fas fa-bolt"></i>
+                        POWER SHOT
+                    </button>
+                    <button class="action-btn restart-btn" id="restartBtn">
+                        <i class="fas fa-redo"></i>
+                        RESTART LEVEL
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        #healthValue { color: #ff5555; }
-        #scoreValue { color: #55ff55; }
-        #ammoValue { color: #5555ff; }
-        #levelValue { color: #ff55ff; }
+        <!-- Message Display -->
+        <div class="message-display" id="messageDisplay"></div>
+    </div>
 
-        /* CONTROL BUTTONS */
-        #controls {
-            position: fixed;
-            bottom: 30px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            z-index: 100;
-        }
+    <!-- Modals -->
+    <!-- Welcome Modal -->
+    <div class="modal welcome-modal" id="welcomeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="welcome-title">
+                    <i class="fas fa-bubbles"></i>
+                    <h2>BUBBLE PUZZLE A-Z</h2>
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <p class="welcome-subtitle">3D Bubble Shooting Adventure</p>
+            </div>
+            
+            <div class="modal-body">
+                <div class="welcome-instructions">
+                    <div class="instruction">
+                        <div class="instruction-icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <h3>AIM & SHOOT</h3>
+                            <p>Use arrows or mouse to aim the bubble gun</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction">
+                        <div class="instruction-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <h3>MATCH LETTERS</h3>
+                            <p>Match 3+ same letters to pop bubbles</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction">
+                        <div class="instruction-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="instruction-text">
+                            <h3>FORM WORDS</h3>
+                            <p>Create words for bonus points!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="difficulty-selector">
+                    <h3>SELECT DIFFICULTY</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn easy active" data-difficulty="easy">
+                            <i class="fas fa-smile"></i> EASY
+                        </button>
+                        <button class="difficulty-btn medium" data-difficulty="medium">
+                            <i class="fas fa-meh"></i> MEDIUM
+                        </button>
+                        <button class="difficulty-btn hard" data-difficulty="hard">
+                            <i class="fas fa-skull"></i> HARD
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="start-game-btn" id="startGameBtn">
+                        <i class="fas fa-play"></i>
+                        START GAME
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        .control-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid #00ffff;
-            background: rgba(0, 100, 255, 0.7);
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-        }
+    <!-- Game Over Modal -->
+    <div class="modal game-over-modal" id="gameOverModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="game-over-title">
+                    <i class="fas fa-trophy"></i>
+                    <h2>GAME OVER!</h2>
+                    <i class="fas fa-trophy"></i>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="final-stats">
+                    <div class="final-stat">
+                        <div class="final-stat-label">FINAL SCORE</div>
+                        <div class="final-stat-value" id="finalScore">0</div>
+                    </div>
+                    
+                    <div class="final-stat">
+                        <div class="final-stat-label">LEVEL REACHED</div>
+                        <div class="final-stat-value" id="finalLevel">1</div>
+                    </div>
+                    
+                    <div class="final-stat">
+                        <div class="final-stat-label">BUBBLES POPPED</div>
+                        <div class="final-stat-value" id="finalBubbles">0</div>
+                    </div>
+                    
+                    <div class="final-stat">
+                        <div class="final-stat-label">ACCURACY</div>
+                        <div class="final-stat-value" id="finalAccuracy">0%</div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="action-btn play-again" id="playAgainBtn">
+                        <i class="fas fa-redo"></i>
+                        PLAY AGAIN
+                    </button>
+                    <button class="action-btn main-menu" id="mainMenuBtn">
+                        <i class="fas fa-home"></i>
+                        MAIN MENU
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        .control-btn:active {
+    <!-- Level Complete Modal -->
+    <div class="modal level-complete-modal" id="levelCompleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="level-complete-title">
+                    <i class="fas fa-star"></i>
+                    <h2>LEVEL COMPLETE!</h2>
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="celebration-animation">
+                    <div class="firework"></div>
+                    <div class="firework"></div>
+                    <div class="firework"></div>
+                </div>
+                
+                <div class="level-stats">
+                    <div class="level-stat">
+                        <div class="level-stat-label">LEVEL SCORE</div>
+                        <div class="level-stat-value" id="levelScore">0</div>
+                    </div>
+                    
+                    <div class="level-stat">
+                        <div class="level-stat-label">TIME BONUS</div>
+                        <div class="level-stat-value" id="timeBonus">+0</div>
+                    </div>
+                    
+                    <div class="level-stat">
+                        <div class="level-stat-label">TOTAL SCORE</div>
+                        <div class="level-stat-value" id="totalScore">0</div>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="action-btn next-level" id="nextLevelBtn">
+                        <i class="fas fa-arrow-right"></i>
+                        NEXT LEVEL
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particles Container -->
+    <div id="particlesContainer"></div>
+
+    <!-- JavaScript -->
+    <script src="game.js"></script>
+</body>
+                    </html>        .control-btn:active {
             transform: scale(0.9);
             background: rgba(0, 150, 255, 0.9);
         }
