@@ -2,1662 +2,1354 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bubble Puzzle A-Z - 3D Shooting Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>5000+ Free Online Tools - Complete Toolkit for Files & Documents</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>">
-</head>
-<body>
-    <!-- Star Background -->
-    <div class="stars" id="stars"></div>
-
-    <!-- Game Container -->
-    <div class="game-container">
-        <!-- Header -->
-        <header class="game-header">
-            <div class="game-title">
-                <i class="fas fa-bubbles"></i>
-                <h1>BUBBLE PUZZLE <span class="az-text">A-Z</span></h1>
-                <i class="fas fa-gamepad"></i>
-            </div>
-            <div class="header-controls">
-                <button class="header-btn" id="soundBtn" title="Sound">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-                <button class="header-btn" id="pauseBtn" title="Pause">
-                    <i class="fas fa-pause"></i>
-                </button>
-                <button class="header-btn" id="helpBtn" title="Help">
-                    <i class="fas fa-question"></i>
-                </button>
-                <button class="header-btn" id="fullscreenBtn" title="Fullscreen">
-                    <i class="fas fa-expand"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- Game Stats -->
-        <div class="game-stats">
-            <div class="stat-item">
-                <div class="stat-icon trophy">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-label">SCORE</div>
-                    <div class="stat-value" id="score">0</div>
-                </div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon flag">
-                    <i class="fas fa-flag"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-label">LEVEL</div>
-                    <div class="stat-value" id="level">1</div>
-                </div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon clock">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-label">TIME</div>
-                    <div class="stat-value" id="timer">60</div>
-                </div>
-            </div>
-            
-            <div class="stat-item">
-                <div class="stat-icon bubble">
-                    <i class="fas fa-circle"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-label">BUBBLES</div>
-                    <div class="stat-value" id="bubbles">50</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Game Area -->
-        <div class="game-area">
-            <!-- Game Board -->
-            <div class="game-board" id="gameBoard">
-                <div class="bubbles-container" id="bubblesContainer">
-                    <!-- Bubbles will be generated here -->
-                </div>
-                
-                <!-- Aim Line -->
-                <div class="aim-line" id="aimLine"></div>
-                
-                <!-- Bubble Gun -->
-                <div class="bubble-gun">
-                    <div class="gun-base">
-                        <div class="gun-barrel" id="gunBarrel">
-                            <div class="gun-tip"></div>
-                        </div>
-                        <div class="gun-body">
-                            <div class="current-bubble-display">
-                                <div class="current-bubble" id="currentBubble">
-                                    <span class="bubble-letter" id="currentLetter">A</span>
-                                </div>
-                                <div class="bubble-label">READY!</div>
-                            </div>
-                            <div class="shoot-control">
-                                <button class="shoot-btn" id="shootBtn">
-                                    <i class="fas fa-bullseye"></i>
-                                    <span class="shoot-text">SHOOT</span>
-                                </button>
-                                <div class="power-indicator">
-                                    <div class="power-bar">
-                                        <div class="power-fill" id="powerFill"></div>
-                                    </div>
-                                    <div class="power-text">POWER: <span id="powerValue">100%</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Controls Panel -->
-            <div class="controls-panel">
-                <!-- Angle Controls -->
-                <div class="angle-controls-section">
-                    <div class="section-title">
-                        <i class="fas fa-crosshairs"></i>
-                        AIM CONTROLS
-                    </div>
-                    <div class="angle-display">
-                        <div class="angle-value-display">
-                            <i class="fas fa-angle-double-right"></i>
-                            ANGLE: <span id="angleValue">0°</span>
-                        </div>
-                    </div>
-                    <div class="angle-buttons">
-                        <button class="angle-btn left" id="aimLeft">
-                            <i class="fas fa-arrow-left"></i>
-                            LEFT
-                        </button>
-                        <div class="angle-center">
-                            <i class="fas fa-arrow-up"></i>
-                        </div>
-                        <button class="angle-btn right" id="aimRight">
-                            RIGHT
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Next Bubbles -->
-                <div class="next-bubbles-section">
-                    <div class="section-title">
-                        <i class="fas fa-eye"></i>
-                        NEXT BUBBLES
-                    </div>
-                    <div class="next-bubbles-container">
-                        <div class="next-bubble-item">
-                            <div class="next-label">1st</div>
-                            <div class="next-bubble" id="nextBubble1">
-                                <span class="bubble-letter">B</span>
-                            </div>
-                        </div>
-                        <div class="next-bubble-item">
-                            <div class="next-label">2nd</div>
-                            <div class="next-bubble" id="nextBubble2">
-                                <span class="bubble-letter">C</span>
-                            </div>
-                        </div>
-                        <div class="next-bubble-item">
-                            <div class="next-label">3rd</div>
-                            <div class="next-bubble" id="nextBubble3">
-                                <span class="bubble-letter">D</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="action-buttons-section">
-                    <button class="action-btn change-btn" id="changeBubble">
-                        <i class="fas fa-random"></i>
-                        CHANGE BUBBLE
-                    </button>
-                    <button class="action-btn powerup-btn" id="powerUp">
-                        <i class="fas fa-bolt"></i>
-                        POWER SHOT
-                    </button>
-                    <button class="action-btn restart-btn" id="restartBtn">
-                        <i class="fas fa-redo"></i>
-                        RESTART LEVEL
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Message Display -->
-        <div class="message-display" id="messageDisplay"></div>
-    </div>
-
-    <!-- Modals -->
-    <!-- Welcome Modal -->
-    <div class="modal welcome-modal" id="welcomeModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="welcome-title">
-                    <i class="fas fa-bubbles"></i>
-                    <h2>BUBBLE PUZZLE A-Z</h2>
-                    <i class="fas fa-gamepad"></i>
-                </div>
-                <p class="welcome-subtitle">3D Bubble Shooting Adventure</p>
-            </div>
-            
-            <div class="modal-body">
-                <div class="welcome-instructions">
-                    <div class="instruction">
-                        <div class="instruction-icon">
-                            <i class="fas fa-crosshairs"></i>
-                        </div>
-                        <div class="instruction-text">
-                            <h3>AIM & SHOOT</h3>
-                            <p>Use arrows or mouse to aim the bubble gun</p>
-                        </div>
-                    </div>
-                    
-                    <div class="instruction">
-                        <div class="instruction-icon">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                        <div class="instruction-text">
-                            <h3>MATCH LETTERS</h3>
-                            <p>Match 3+ same letters to pop bubbles</p>
-                        </div>
-                    </div>
-                    
-                    <div class="instruction">
-                        <div class="instruction-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="instruction-text">
-                            <h3>FORM WORDS</h3>
-                            <p>Create words for bonus points!</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="difficulty-selector">
-                    <h3>SELECT DIFFICULTY</h3>
-                    <div class="difficulty-options">
-                        <button class="difficulty-btn easy active" data-difficulty="easy">
-                            <i class="fas fa-smile"></i> EASY
-                        </button>
-                        <button class="difficulty-btn medium" data-difficulty="medium">
-                            <i class="fas fa-meh"></i> MEDIUM
-                        </button>
-                        <button class="difficulty-btn hard" data-difficulty="hard">
-                            <i class="fas fa-skull"></i> HARD
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="start-game-btn" id="startGameBtn">
-                        <i class="fas fa-play"></i>
-                        START GAME
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Game Over Modal -->
-    <div class="modal game-over-modal" id="gameOverModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="game-over-title">
-                    <i class="fas fa-trophy"></i>
-                    <h2>GAME OVER!</h2>
-                    <i class="fas fa-trophy"></i>
-                </div>
-            </div>
-            
-            <div class="modal-body">
-                <div class="final-stats">
-                    <div class="final-stat">
-                        <div class="final-stat-label">FINAL SCORE</div>
-                        <div class="final-stat-value" id="finalScore">0</div>
-                    </div>
-                    
-                    <div class="final-stat">
-                        <div class="final-stat-label">LEVEL REACHED</div>
-                        <div class="final-stat-value" id="finalLevel">1</div>
-                    </div>
-                    
-                    <div class="final-stat">
-                        <div class="final-stat-label">BUBBLES POPPED</div>
-                        <div class="final-stat-value" id="finalBubbles">0</div>
-                    </div>
-                    
-                    <div class="final-stat">
-                        <div class="final-stat-label">ACCURACY</div>
-                        <div class="final-stat-value" id="finalAccuracy">0%</div>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="action-btn play-again" id="playAgainBtn">
-                        <i class="fas fa-redo"></i>
-                        PLAY AGAIN
-                    </button>
-                    <button class="action-btn main-menu" id="mainMenuBtn">
-                        <i class="fas fa-home"></i>
-                        MAIN MENU
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Level Complete Modal -->
-    <div class="modal level-complete-modal" id="levelCompleteModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="level-complete-title">
-                    <i class="fas fa-star"></i>
-                    <h2>LEVEL COMPLETE!</h2>
-                    <i class="fas fa-star"></i>
-                </div>
-            </div>
-            
-            <div class="modal-body">
-                <div class="celebration-animation">
-                    <div class="firework"></div>
-                    <div class="firework"></div>
-                    <div class="firework"></div>
-                </div>
-                
-                <div class="level-stats">
-                    <div class="level-stat">
-                        <div class="level-stat-label">LEVEL SCORE</div>
-                        <div class="level-stat-value" id="levelScore">0</div>
-                    </div>
-                    
-                    <div class="level-stat">
-                        <div class="level-stat-label">TIME BONUS</div>
-                        <div class="level-stat-value" id="timeBonus">+0</div>
-                    </div>
-                    
-                    <div class="level-stat">
-                        <div class="level-stat-label">TOTAL SCORE</div>
-                        <div class="level-stat-value" id="totalScore">0</div>
-                    </div>
-                </div>
-                
-                <div class="modal-actions">
-                    <button class="action-btn next-level" id="nextLevelBtn">
-                        <i class="fas fa-arrow-right"></i>
-                        NEXT LEVEL
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Particles Container -->
-    <div id="particlesContainer"></div>
-
-    <!-- JavaScript -->
-    <script src="game.js"></script>
-</body>
-                    </html>        .control-btn:active {
-            transform: scale(0.9);
-            background: rgba(0, 150, 255, 0.9);
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        #shootBtn {
-            background: rgba(255, 50, 50, 0.7);
-            border-color: #ff3366;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        :root {
+            --primary-color: #4361ee;
+            --primary-dark: #3a0ca3;
+            --primary-light: #4cc9f0;
+            --secondary-color: #7209b7;
+            --accent-color: #f72585;
+            --success-color: #4ade80;
+            --success-dark: #22c55e;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            --dark-color: #1e293b;
+            --darker-color: #0f172a;
+            --light-color: #f8fafc;
+            --gray-color: #64748b;
+            --gray-light: #e2e8f0;
+            --gray-dark: #475569;
+            --border-color: #cbd5e1;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --shadow-2xl: 0 25px 60px rgba(0, 0, 0, 0.2);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 20px;
+            --transition-fast: 150ms ease;
+            --transition-normal: 300ms ease;
+            --transition-slow: 500ms ease;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-secondary: linear-gradient(135deg, #7209b7 0%, #3a0ca3 100%);
+            --gradient-accent: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --gradient-success: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --gradient-light: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --gradient-rainbow: linear-gradient(90deg, #4361ee, #3a0ca3, #7209b7, #b5179e, #f72585);
         }
 
-        /* START SCREEN */
-        #startScreen {
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, #000428, #004e92);
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(67, 97, 238, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(114, 9, 183, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(247, 37, 133, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+            color: var(--darker-color);
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--gray-dark);
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        button {
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            transition: all var(--transition-normal);
+        }
+
+        input, textarea, select {
+            font-family: 'Inter', sans-serif;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+            background: white;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .container-fluid {
+            width: 100%;
+            padding: 0 2rem;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+        .text-success { color: var(--success-color); }
+        .text-warning { color: var(--warning-color); }
+        .text-danger { color: var(--danger-color); }
+        .text-info { color: var(--info-color); }
+        .text-dark { color: var(--dark-color); }
+        .text-light { color: var(--light-color); }
+        .text-gray { color: var(--gray-color); }
+        
+        .bg-primary { background: var(--primary-color); }
+        .bg-secondary { background: var(--secondary-color); }
+        .bg-success { background: var(--success-color); }
+        .bg-warning { background: var(--warning-color); }
+        .bg-danger { background: var(--danger-color); }
+        .bg-dark { background: var(--dark-color); }
+        .bg-light { background: var(--light-color); }
+        
+        .gradient-primary { background: var(--gradient-primary); }
+        .gradient-secondary { background: var(--gradient-secondary); }
+        .gradient-success { background: var(--gradient-success); }
+        .gradient-warning { background: var(--gradient-warning); }
+        .gradient-danger { background: var(--gradient-danger); }
+        .gradient-dark { background: var(--gradient-dark); }
+        
+        .d-none { display: none !important; }
+        .d-block { display: block !important; }
+        .d-inline { display: inline !important; }
+        .d-inline-block { display: inline-block !important; }
+        .d-flex { display: flex !important; }
+        .d-grid { display: grid !important; }
+        
+        .flex-column { flex-direction: column; }
+        .flex-row { flex-direction: row; }
+        .flex-wrap { flex-wrap: wrap; }
+        .flex-nowrap { flex-wrap: nowrap; }
+        .justify-start { justify-content: flex-start; }
+        .justify-center { justify-content: center; }
+        .justify-end { justify-content: flex-end; }
+        .justify-between { justify-content: space-between; }
+        .justify-around { justify-content: space-around; }
+        .align-start { align-items: flex-start; }
+        .align-center { align-items: center; }
+        .align-end { align-items: flex-end; }
+        .align-stretch { align-items: stretch; }
+        
+        .w-100 { width: 100%; }
+        .h-100 { height: 100%; }
+        .mw-100 { max-width: 100%; }
+        .mh-100 { max-height: 100%; }
+        
+        .m-0 { margin: 0; }
+        .m-1 { margin: 0.25rem; }
+        .m-2 { margin: 0.5rem; }
+        .m-3 { margin: 1rem; }
+        .m-4 { margin: 1.5rem; }
+        .m-5 { margin: 2rem; }
+        
+        .p-0 { padding: 0; }
+        .p-1 { padding: 0.25rem; }
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 1rem; }
+        .p-4 { padding: 1.5rem; }
+        .p-5 { padding: 2rem; }
+        
+        .position-relative { position: relative; }
+        .position-absolute { position: absolute; }
+        .position-fixed { position: fixed; }
+        .position-sticky { position: sticky; }
+        
+        .overflow-hidden { overflow: hidden; }
+        .overflow-auto { overflow: auto; }
+        .overflow-x-auto { overflow-x: auto; }
+        .overflow-y-auto { overflow-y: auto; }
+        
+        .shadow-none { box-shadow: none; }
+        .shadow-sm { box-shadow: var(--shadow-sm); }
+        .shadow-md { box-shadow: var(--shadow-md); }
+        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-xl { box-shadow: var(--shadow-xl); }
+        .shadow-2xl { box-shadow: var(--shadow-2xl); }
+        
+        .rounded-sm { border-radius: var(--radius-sm); }
+        .rounded-md { border-radius: var(--radius-md); }
+        .rounded-lg { border-radius: var(--radius-lg); }
+        .rounded-xl { border-radius: var(--radius-xl); }
+        .rounded-2xl { border-radius: var(--radius-2xl); }
+        .rounded-full { border-radius: 9999px; }
+        
+        .cursor-pointer { cursor: pointer; }
+        .cursor-default { cursor: default; }
+        .cursor-not-allowed { cursor: not-allowed; }
+        
+        .opacity-0 { opacity: 0; }
+        .opacity-25 { opacity: 0.25; }
+        .opacity-50 { opacity: 0.5; }
+        .opacity-75 { opacity: 0.75; }
+        .opacity-100 { opacity: 1; }
+        
+        .z-0 { z-index: 0; }
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-30 { z-index: 30; }
+        .z-40 { z-index: 40; }
+        .z-50 { z-index: 50; }
+        .z-auto { z-index: auto; }
+        
+        .transition-all { transition: all var(--transition-normal); }
+        .transition-colors { transition: color var(--transition-normal), background-color var(--transition-normal); }
+        .transition-transform { transition: transform var(--transition-normal); }
+        .transition-opacity { transition: opacity var(--transition-normal); }
+        
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            text-align: center;
+            text-decoration: none;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(114, 9, 183, 0.3);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--gradient-warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: var(--border-color);
+            color: var(--dark-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--light-color);
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-lg {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-xl {
+            padding: 1.25rem 2.5rem;
+            font-size: 1.25rem;
+        }
+
+        .btn-block {
+            width: 100%;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            color: white;
         }
 
-        #startScreen h1 {
-            font-size: 60px;
-            color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
-            margin-bottom: 40px;
-            text-align: center;
+        .btn-icon {
+            padding: 0.75rem;
+            border-radius: var(--radius-md);
         }
 
-        #startBtn {
-            padding: 20px 60px;
-            font-size: 28px;
-            background: linear-gradient(45deg, #00cc66, #00aa44);
-            border: none;
-            border-radius: 15px;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 40px;
-            transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        .btn-icon i {
+            font-size: 1.25rem;
         }
 
-        #startBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.8);
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
         }
 
-        .instructions {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 25px;
-            border-radius: 15px;
-            border: 2px solid #00ffff;
-            max-width: 600px;
-            text-align: center;
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            border-right-color: transparent;
+            animation: spin 0.75s linear infinite;
         }
 
-        .instructions h3 {
-            color: #00ffff;
-            margin-bottom: 20px;
-            font-size: 24px;
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
-        .instructions p {
-            margin: 10px 0;
-            font-size: 18px;
-            color: #ccc;
+        .btn-group {
+            display: inline-flex;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
         }
 
-        /* GAME OVER SCREEN */
-        #gameOverScreen {
+        .btn-group .btn {
+            border-radius: 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-group .btn:first-child {
+            border-top-left-radius: var(--radius-lg);
+            border-bottom-left-radius: var(--radius-lg);
+        }
+
+        .btn-group .btn:last-child {
+            border-top-right-radius: var(--radius-lg);
+            border-bottom-right-radius: var(--radius-lg);
+            border-right: none;
+        }
+
+        /* ============================================
+           HEADER & NAVIGATION
+           ============================================ */
+
+        .main-header {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(203, 213, 225, 0.3);
             z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+
+        .main-header.scrolled {
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-rainbow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
+            font-size: 1.5rem;
         }
 
-        #gameOverScreen h2 {
-            font-size: 60px;
-            color: #ff5555;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px #ff0000;
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
-        .final-stats {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #00ffff;
-            margin-bottom: 30px;
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            color: var(--dark-color);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 3px;
+            transition: width var(--transition-normal);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            cursor: pointer;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+
+        .hero {
+            padding: 160px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
         }
 
-        .final-stats p {
-            font-size: 22px;
-            margin: 15px 0;
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-rainbow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .final-stats span {
-            color: #00ffff;
-            font-weight: bold;
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-dark);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
         }
 
-        #restartBtn {
-            padding: 20px 60px;
-            font-size: 28px;
-            background: linear-gradient(45deg, #ff3366, #cc0033);
-            border: none;
-            border-radius: 15px;
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           TOOLS CATEGORIES
+           ============================================ */
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.125rem;
+            color: var(--gray-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(203, 213, 225, 0.3);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
             color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
         }
 
-        #restartBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+        .category-card:nth-child(1) .category-icon {
+            background: var(--gradient-primary);
         }
 
-        /* MOBILE OPTIMIZATION */
+        .category-card:nth-child(2) .category-icon {
+            background: var(--gradient-secondary);
+        }
+
+        .category-card:nth-child(3) .category-icon {
+            background: var(--gradient-success);
+        }
+
+        .category-card:nth-child(4) .category-icon {
+            background: var(--gradient-warning);
+        }
+
+        .category-card:nth-child(5) .category-icon {
+            background: var(--gradient-danger);
+        }
+
+        .category-card:nth-child(6) .category-icon {
+            background: var(--gradient-accent);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card p {
+            color: var(--gray-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .category-count {
+            display: inline-block;
+            background: var(--light-color);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           FEATURED TOOLS
+           ============================================ */
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .tool-card h4 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-card p {
+            font-size: 0.875rem;
+            color: var(--gray-color);
+            margin-bottom: 1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tag {
+            background: var(--light-color);
+            color: var(--gray-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+
+        .footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 80px 0 40px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.25rem; }
+            .hero-title { font-size: 3rem; }
+        }
+
         @media (max-width: 768px) {
-            .control-btn {
-                width: 70px;
-                height: 70px;
-                font-size: 24px;
+            .container { padding: 0 1.5rem; }
+            
+            .mobile-menu-btn { display: block; }
+            
+            .main-nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all var(--transition-normal);
             }
             
-            #startScreen h1 {
-                font-size: 40px;
+            .main-nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
             }
             
-            #startBtn, #restartBtn {
-                padding: 15px 40px;
-                font-size: 22px;
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
             }
             
-            .hud-item {
-                font-size: 16px;
-                padding: 8px 15px;
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
             }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .stat-number { font-size: 2.5rem; }
         }
 
         @media (max-width: 480px) {
-            .control-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 20px;
-            }
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .hero-title { font-size: 2.5rem; }
             
-            #controls {
-                gap: 20px;
-                bottom: 20px;
-            }
+            .section { padding: 60px 0; }
             
-            #startScreen h1 {
-                font-size: 32px;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
-    <!-- GAME CONTAINER -->
-    <div id="gameContainer">
-        <!-- HUD -->
-        <div id="hud">
-            <div class="hud-item">
-                <i class="fas fa-heart"></i>
-                <span id="healthValue">100</span>
-            </div>
-            <div class="hud-item">
-                <i class="fas fa-star"></i>
-                <span id="scoreValue">0</span>
-            </div>
-            <div class="hud-item">
-                <i class="fas fa-bolt"></i>
-                <span id="ammoValue">30</span>
-            </div>
-            <div class="hud-item">
-                <i class="fas fa-flag"></i>
-                <span id="levelValue">1</span>
-            </div>
-        </div>
-
-        <!-- GAME CANVAS -->
-        <canvas id="gameCanvas"></canvas>
-
-        <!-- CONTROL BUTTONS -->
-        <div id="controls">
-            <button id="leftBtn" class="control-btn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <button id="shootBtn" class="control-btn">
-                <i class="fas fa-crosshairs"></i>
-            </button>
-            <button id="rightBtn" class="control-btn">
-                <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- START SCREEN -->
-    <div id="startScreen">
-        <h1><i class="fas fa-rocket"></i> SPACE SHOOTER</h1>
-        <button id="startBtn">START GAME</button>
-        
-        <div class="instructions">
-            <h3>HOW TO PLAY</h3>
-            <p>← → Move your spaceship</p>
-            <p>SPACE / SHOOT button to fire</p>
-            <p>Avoid enemy ships and bullets</p>
-            <p>Destroy enemies to score points</p>
-            <p>Collect power-ups for bonuses</p>
-            <p>Survive as long as possible!</p>
-        </div>
-    </div>
-
-    <!-- GAME OVER SCREEN -->
-    <div id="gameOverScreen">
-        <h2>GAME OVER</h2>
-        <div class="final-stats">
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <p>Level Reached: <span id="finalLevel">1</span></p>
-            <p>Enemies Destroyed: <span id="finalEnemies">0</span></p>
-        </div>
-        <button id="restartBtn">PLAY AGAIN</button>
-    </div>
-
-    <script>
-        // ==================== GAME INITIALIZATION ====================
-        console.log("Game starting...");
-        
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Set canvas to full screen
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            console.log("Canvas resized to:", canvas.width, "x", canvas.height);
-        }
-        
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        
-        // ==================== GAME STATE ====================
-        let game = {
-            running: false,
-            score: 0,
-            level: 1,
-            health: 100,
-            ammo: 30,
-            enemiesDestroyed: 0,
-            stars: []
-        };
-        
-        // ==================== PLAYER ====================
-        const player = {
-            x: canvas.width / 2 - 25,
-            y: canvas.height - 100,
-            width: 50,
-            height: 60,
-            speed: 10,
-            bullets: [],
-            lastShot: 0,
-            shootDelay: 300,
-            hasShield: false
-        };
-        
-        // ==================== ENEMIES ====================
-        let enemies = [];
-        let enemyBullets = [];
-        
-        // ==================== INPUT HANDLING ====================
-        const keys = {
-            ArrowLeft: false,
-            ArrowRight: false,
-            ' ': false,
-            a: false,
-            d: false
-        };
-        
-        // ==================== UI ELEMENTS ====================
-        const startScreen = document.getElementById('startScreen');
-        const gameOverScreen = document.getElementById('gameOverScreen');
-        const startBtn = document.getElementById('startBtn');
-        const restartBtn = document.getElementById('restartBtn');
-        const leftBtn = document.getElementById('leftBtn');
-        const rightBtn = document.getElementById('rightBtn');
-        const shootBtn = document.getElementById('shootBtn');
-        
-        // ==================== CREATE STARS ====================
-        function createStars() {
-            game.stars = [];
-            for (let i = 0; i < 150; i++) {
-                game.stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 1,
-                    speed: Math.random() * 2 + 0.5
-                });
-            }
-            console.log("Stars created:", game.stars.length);
-        }
-        
-        // ==================== DRAW STARS ====================
-        function drawStars() {
-            ctx.fillStyle = '#ffffff';
-            game.stars.forEach(star => {
-                star.y += star.speed;
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-        }
-        
-        // ==================== DRAW PLAYER ====================
-        function drawPlayer() {
-            ctx.save();
-            
-            // Shield
-            if (player.hasShield) {
-                ctx.strokeStyle = 'rgba(0, 255, 255, 0.5)';
-                ctx.lineWidth = 4;
-                ctx.beginPath();
-                ctx.arc(player.x + player.width/2, player.y + player.height/2, 40, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-            
-            // Spaceship body
-            ctx.fillStyle = '#00ffff';
-            ctx.beginPath();
-            ctx.moveTo(player.x + player.width/2, player.y);
-            ctx.lineTo(player.x, player.y + player.height);
-            ctx.lineTo(player.x + player.width, player.y + player.height);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Cockpit
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(player.x + player.width/2, player.y + 20, 10, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Engine glow
-            if (game.running) {
-                ctx.fillStyle = 'rgba(255, 100, 0, 0.8)';
-                ctx.fillRect(player.x + 15, player.y + player.height, 20, 30);
-            }
-            
-            ctx.restore();
-        }
-        
-        // ==================== CREATE ENEMY ====================
-        function createEnemy() {
-            return {
-                x: Math.random() * (canvas.width - 50),
-                y: -50,
-                width: 40,
-                height: 40,
-                speed: 2 + game.level * 0.5,
-                color: `hsl(${Math.random() * 60}, 100%, 50%)`,
-                lastShot: 0,
-                shootDelay: 1500 + Math.random() * 1000
-            };
-        }
-        
-        // ==================== DRAW ENEMY ====================
-        function drawEnemy(enemy) {
-            ctx.save();
-            
-            ctx.fillStyle = enemy.color;
-            ctx.beginPath();
-            ctx.ellipse(enemy.x + enemy.width/2, enemy.y + enemy.height/2, 
-                        enemy.width/2, enemy.height/2, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.fillStyle = '#000';
-            ctx.beginPath();
-            ctx.arc(enemy.x + enemy.width/2, enemy.y + enemy.height/2, 8, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.restore();
-        }
-        
-        // ==================== CREATE BULLET ====================
-        function createBullet(x, y, isPlayer = true) {
-            return {
-                x: x,
-                y: y,
-                width: 6,
-                height: 15,
-                speed: isPlayer ? -12 : 8,
-                color: isPlayer ? '#ffff00' : '#ff4444'
-            };
-        }
-        
-        // ==================== DRAW BULLET ====================
-        function drawBullet(bullet) {
-            ctx.save();
-            
-            ctx.fillStyle = bullet.color;
-            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-            
-            // Glow effect
-            ctx.shadowColor = bullet.color;
-            ctx.shadowBlur = 10;
-            ctx.fill();
-            
-            ctx.restore();
-        }
-        
-        // ==================== CHECK COLLISION ====================
-        function checkCollision(rect1, rect2) {
-            return rect1.x < rect2.x + rect2.width &&
-                   rect1.x + rect1.width > rect2.x &&
-                   rect1.y < rect2.y + rect2.height &&
-                   rect1.y + rect1.height > rect2.y;
-        }
-        
-        // ==================== UPDATE HUD ====================
-        function updateHUD() {
-            document.getElementById('healthValue').textContent = game.health;
-            document.getElementById('scoreValue').textContent = game.score;
-            document.getElementById('ammoValue').textContent = game.ammo;
-            document.getElementById('levelValue').textContent = game.level;
-        }
-        
-        // ==================== TAKE DAMAGE ====================
-        function takeDamage(amount) {
-            if (player.hasShield) return;
-            
-            game.health -= amount;
-            if (game.health < 0) game.health = 0;
-            updateHUD();
-            
-            // Visual feedback
-            canvas.style.boxShadow = '0 0 50px red';
-            setTimeout(() => canvas.style.boxShadow = 'none', 100);
-        }
-        
-        // ==================== CREATE POWERUP ====================
-        function createPowerUp() {
-            const types = ['health', 'ammo'];
-            const type = types[Math.floor(Math.random() * types.length)];
-            
-            return {
-                x: Math.random() * (canvas.width - 30),
-                y: -30,
-                width: 30,
-                height: 30,
-                speed: 3,
-                type: type,
-                color: type === 'health' ? '#ff4444' : '#4488ff'
-            };
-        }
-        
-        // ==================== DRAW POWERUP ====================
-        function drawPowerUp(powerUp) {
-            ctx.save();
-            
-            ctx.fillStyle = powerUp.color;
-            ctx.beginPath();
-            ctx.arc(powerUp.x + 15, powerUp.y + 15, 15, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.fillStyle = '#fff';
-            ctx.font = '20px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(powerUp.type === 'health' ? '❤️' : '⚡', 
-                        powerUp.x + 15, powerUp.y + 15);
-            
-            ctx.restore();
-        }
-        
-        // ==================== GAME LOOP ====================
-        function gameLoop() {
-            if (!game.running) {
-                console.log("Game loop stopped - game not running");
-                return;
-            }
-            
-            // Clear canvas
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw background
-            drawStars();
-            
-            // Move player
-            if ((keys.ArrowLeft || keys.a) && player.x > 10) {
-                player.x -= player.speed;
-            }
-            if ((keys.ArrowRight || keys.d) && player.x < canvas.width - player.width - 10) {
-                player.x += player.speed;
-            }
-            
-            // Player shooting
-            const now = Date.now();
-            if ((keys[' '] || keys.Space) && now - player.lastShot > player.shootDelay && game.ammo > 0) {
-                player.bullets.push(createBullet(player.x + player.width/2 - 3, player.y));
-                player.lastShot = now;
-                game.ammo--;
-                updateHUD();
-            }
-            
-            // Spawn enemies
-            if (Math.random() < 0.02) { // 2% chance per frame
-                enemies.push(createEnemy());
-            }
-            
-            // Spawn powerups occasionally
-            if (Math.random() < 0.005 && game.score > 100) { // 0.5% chance
-                // Removed for simplicity
-            }
-            
-            // Update player bullets
-            player.bullets = player.bullets.filter(bullet => {
-                bullet.y += bullet.speed;
-                
-                // Remove if off screen
-                if (bullet.y < 0) return false;
-                
-                // Check collision with enemies
-                let hit = fal        }
-
-        #startScreen h1 {
-            font-size: 48px;
-            color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
-            margin-bottom: 30px;
-        }
-
-        #startBtn {
-            padding: 15px 40px;
-            font-size: 20px;
-            background: linear-gradient(145deg, #00cc66, #009944);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-
-        #startBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px #00ff00;
-        }
-
-        .instructions {
-            margin-top: 30px;
-            text-align: center;
-            max-width: 600px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-            border: 1px solid #00ffff;
-        }
-
-        .instructions h3 {
-            color: #00ffff;
-            margin-bottom: 15px;
-        }
-
-        .instructions ul {
-            list-style: none;
-            text-align: left;
-        }
-
-        .instructions li {
-            margin: 10px 0;
-            color: #ccc;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-item {
-            margin: 0 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-item i {
-            color: #00ffff;
-        }
-
-        #health { color: #ff4444; }
-        #score { color: #44ff44; }
-        #ammo { color: #4488ff; }
-        #level { color: #ff44ff; }
-
-        #gameOverScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            color: white;
-        }
-
-        #gameOverScreen h2 {
-            font-size: 48px;
-            color: #ff4444;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px #ff0000;
-        }
-
-        #restartBtn {
-            padding: 15px 40px;
-            font-size: 20px;
-            background: linear-gradient(145deg, #ff3366, #cc0033);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-top: 30px;
-            font-weight: bold;
-        }
-
-        .final-stats {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #00ffff;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .final-stats p {
-            margin: 10px 0;
-            font-size: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .control-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 20px;
-            }
-            
-            #hud {
-                font-size: 16px;
-                padding: 10px;
-            }
-            
-            #startScreen h1 {
-                font-size: 36px;
-            }
-            
-            #controls {
-                gap: 20px;
-                bottom: 10px;
+            .btn-lg, .btn-xl {
+                padding: 0.875rem 1.75rem;
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="hud">
-            <div class="stat-item">
-                <span>❤️</span>
-                <span id="health">100</span>
-            </div>
-            <div class="stat-item">
-                <span>🎯</span>
-                <span id="score">0</span>
-            </div>
-            <div class="stat-item">
-                <span>⚡</span>
-                <span id="ammo">30</span>
-            </div>
-            <div class="stat-item">
-                <span>🏆</span>
-                <span id="level">1</span>
+    <!-- Header -->
+    <header class="main-header" id="main-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <span>ToolKit</span>
+                </a>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="main-nav" id="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="#home" class="nav-link">Home</a></li>
+                        <li><a href="#categories" class="nav-link">Categories</a></li>
+                        <li><a href="#tools" class="nav-link">All Tools</a></li>
+                        <li><a href="#about" class="nav-link">About</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                    <div class="nav-actions">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-user"></i> Sign In
+                        </button>
+                    </div>
+                </nav>
             </div>
         </div>
+    </header>
 
-        <canvas id="gameCanvas"></canvas>
-
-        <div id="controls">
-            <button id="leftBtn" class="control-btn">←</button>
-            <button id="shootBtn" class="control-btn">🔥</button>
-            <button id="rightBtn" class="control-btn">→</button>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-in">
+                    5000+ Free Online Tools
+                </h1>
+                <p class="hero-subtitle animate-fade-in" style="animation-delay: 0.2s;">
+                    The most comprehensive collection of free online tools for files, documents, images, videos, and more.
+                    No registration required. Completely free forever.
+                </p>
+                
+                <div class="hero-actions animate-fade-in" style="animation-delay: 0.4s;">
+                    <button class="btn btn-primary btn-xl">
+                        <i class="fas fa-rocket"></i> Explore Tools
+                    </button>
+                    <button class="btn btn-outline btn-xl">
+                        <i class="fas fa-search"></i> Search Tools
+                    </button>
+                </div>
+                
+                <div class="hero-stats animate-fade-in" style="animation-delay: 0.6s;">
+                    <div class="stat-item">
+                        <div class="stat-number">5000+</div>
+                        <div class="stat-label">Free Tools</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Categories</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Registration</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="startScreen">
-        <h1>🚀 SPACE SHOOTER 🚀</h1>
-        <button id="startBtn">START GAME</button>
-        
-        <div class="instructions">
-            <h3>HOW TO PLAY</h3>
-            <ul>
-                <li>← → Move your spaceship</li>
-                <li>🔥 Shoot bullets to destroy enemies</li>
-                <li>❤️ Avoid enemies and their bullets</li>
-                <li>⭐ Collect power-ups for bonuses</li>
-                <li>Survive as long as possible!</li>
-            </ul>
+    <!-- Categories Section -->
+    <section class="section" id="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tool Categories</h2>
+                <p>Browse tools by category. We have everything you need for all your file and document tasks.</p>
+            </div>
+            
+            <div class="categories-grid">
+                <!-- Category 1 -->
+                <div class="category-card animate-fade-in">
+                    <div class="category-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3>PDF Tools</h3>
+                    <p>Edit, convert, merge, split, compress, and optimize PDF files with our comprehensive toolkit.</p>
+                    <span class="category-count">150+ Tools</span>
+                </div>
+                
+                <!-- Category 2 -->
+                <div class="category-card animate-fade-in" style="animation-delay: 0.1s;">
+                    <div class="category-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>Image Tools</h3>
+                    <p>Convert, resize, compress, edit, and enhance images. Support for all popular formats.</p>
+                    <span class="category-count">200+ Tools</span>
+                </div>
+                
+                <!-- Category 3 -->
+                <div class="category-card animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="category-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Tools</h3>
+                    <p>Convert, compress, edit, merge, and extract audio from video files. All formats supported.</p>
+                    <span class="category-count">120+ Tools</span>
+                </div>
+                
+                <!-- Category 4 -->
+                <div class="category-card animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="category-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Document Tools</h3>
+                    <p>Word, Excel, PowerPoint tools. Convert, edit, merge, and optimize documents.</p>
+                    <span class="category-count">180+ Tools</span>
+                </div>
+                
+                <!-- Category 5 -->
+                <div class="category-card animate-fade-in" style="animation-delay: 0.4s;">
+                    <div class="category-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Audio Tools</h3>
+                    <p>Convert, compress, edit, merge, and extract audio from various formats. MP3, WAV, AAC, etc.</p>
+                    <span class="category-count">90+ Tools</span>
+                </div>
+                
+                <!-- Category 6 -->
+                <div class="category-card animate-fade-in" style="animation-delay: 0.5s;">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Developer Tools</h3>
+                    <p>Code formatters, validators, converters, generators, and other essential developer tools.</p>
+                    <span class="category-count">250+ Tools</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="gameOverScreen">
-        <h2>GAME OVER</h2>
-        <div class="final-stats">
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <p>Level Reached: <span id="finalLevel">1</span></p>
-            <p>Enemies Destroyed: <span id="finalEnemies">0</span></p>
+    <!-- Featured Tools -->
+    <section class="section bg-light" id="tools">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Tools</h2>
+                <p>Check out some of our most popular tools used by millions of users worldwide.</p>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- Tool 1 -->
+                <div class="tool-card">
+                    <div class="tool-icon bg-primary">
+                        <i class="fas fa-compress"></i>
+                    </div>
+                    <h4>PDF Compressor</h4>
+                    <p>Reduce PDF file size while maintaining quality. Perfect for email and web uploads.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">PDF</span>
+                        <span class="tool-tag">Compress</span>
+                        <span class="tool-tag">Optimize</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm btn-block">Use Tool</button>
+                </div>
+                
+                <!-- Tool 2 -->
+                <div class="tool-card">
+                    <div class="tool-icon bg-secondary">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h4>Image Converter</h4>
+                    <p>Convert between JPG, PNG, GIF, WebP, BMP, and other image formats instantly.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Image</span>
+                        <span class="tool-tag">Convert</span>
+                        <span class="tool-tag">JPG/PNG</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm btn-block">Use Tool</button>
+                </div>
+                
+                <!-- Tool 3 -->
+                <div class="tool-card">
+                    <div class="tool-icon bg-success">
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <h4>Video Trimmer</h4>
+                    <p>Cut and trim video files online. No software installation required.</p>
+                    <div class="tool-tags">
+                        <span class="tool-tag">Video</span>
+                        <span class="tool-tag">Edit</span>
+                        <span class="tool-tag">Trim</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm btn-block">Use Tool</button>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-th-list"></i> View All Tools
+                </button>
+            </div>
         </div>
-        <button id="restartBtn">PLAY AGAIN</button>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <span>ToolKit</span>
+                    </a>
+                    <p style="color: rgba(255,255,255,0.8); margin-top: 1rem;">
+                        The world's largest collection of free online tools for files, documents, images, and more.
+                    </p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">PDF Tools</a></li>
+                        <li><a href="#">Image Tools</a></li>
+                        <li><a href="#">Video Tools</a></li>
+                        <li><a href="#">Audio Tools</a></li>
+                        <li><a href="#">Document Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Tool Status</a></li>
+                        <li><a href="#">Report Issue</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 ToolKit. All rights reserved. | 5000+ Free Online Tools</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Initialize canvas
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-
-        // Set canvas to full screen
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            player.x = canvas.width / 2 - player.width / 2;
-        }
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
         
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // Game state
-        let game = {
-            running: false,
-            score: 0,
-            level: 1,
-            health: 100,
-            ammo: 30,
-            enemiesDestroyed: 0,
-            difficulty: 'medium',
-            powerUps: [],
-            stars: []
-        };
-
-        // Player
-        const player = {
-            x: canvas.width / 2 - 25,
-            y: canvas.height - 100,
-            width: 50,
-            height: 60,
-            speed: 10,
-            bullets: [],
-            lastShot: 0,
-            shootDelay: 250,
-            hasShield: false,
-            shieldTime: 0
-        };
-
-        // Enemies
-        let enemies = [];
-        let enemyBullets = [];
-
-        // Input handling
-        const keys = {
-            ArrowLeft: false,
-            ArrowRight: false,
-            ' ': false,
-            a: false,
-            d: false
-        };
-
-        // Difficulty settings
-        const difficultySettings = {
-            easy: { enemySpeed: 2, spawnRate: 90, enemyHealth: 1, enemyShootRate: 2000 },
-            medium: { enemySpeed: 3, spawnRate: 60, enemyHealth: 2, enemyShootRate: 1500 },
-            hard: { enemySpeed: 4, spawnRate: 40, enemyHealth: 3, enemyShootRate: 1000 }
-        };
-
-        // Initialize stars for background
-        function initStars() {
-            game.stars = [];
-            for (let i = 0; i < 150; i++) {
-                game.stars.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 3,
-                    speed: Math.random() * 2 + 1
-                });
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header scroll effect
+        const mainHeader = document.getElementById('main-header');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                mainHeader.classList.add('scrolled');
+            } else {
+                mainHeader.classList.remove('scrolled');
             }
-        }
-
-        // Draw stars
-        function drawStars() {
-            ctx.fillStyle = '#ffffff';
-            game.stars.forEach(star => {
-                star.y += star.speed;
-                if (star.y > canvas.height) {
-                    star.y = 0;
-                    star.x = Math.random() * canvas.width;
-                }
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
+        });
+        
+        // Close mobile menu when clicking a link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
             });
-        }
-
-        // Draw player
-        function drawPlayer() {
-            ctx.save();
-            
-            // Shield effect
-            if (player.hasShield) {
-                ctx.strokeStyle = 'rgba(0, 255, 255, 0.6)';
-                ctx.lineWidth = 4;
-                ctx.beginPath();
-                ctx.arc(player.x + player.width / 2, player.y + player.height / 2, 40, 0, Math.PI * 2);
-                ctx.stroke();
-            }
-            
-            // Draw spaceship
-            ctx.fillStyle = '#00ffff';
-            
-            // Ship body
-            ctx.beginPath();
-            ctx.moveTo(player.x + player.width / 2, player.y);
-            ctx.lineTo(player.x, player.y + player.height);
-            ctx.lineTo(player.x + player.width, player.y + player.height);
-            ctx.closePath();
-            ctx.fill();
-            
-            // Cockpit
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(player.x + player.width / 2, player.y + 20, 10, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Engine glow
-            if (game.running) {
-                ctx.fillStyle = 'rgba(255, 100, 0, 0.8)';
-                ctx.beginPath();
-                ctx.ellipse(player.x + player.width / 2, player.y + player.height + 10, 15, 25, 0, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            
-            ctx.restore();
-        }
-
-        // Create enemy
-        function createEnemy() {
-            const settings = difficultySettings[game.difficulty];
-            return {
-                x: Math.random() * (canvas.width - 50),
-                y: -50,
-                width: 40 + Math.random() * 20,
-                height: 40 + Math.random() * 20,
-                speed: settings.enemySpeed + Math.random() * 1,
-                health: settings.enemyHealth,
-                color: `hsl(${Math.random() * 60}, 100%, 50%)`,
-                lastShot: 0,
-                shootDelay: settings.enemyShootRate
-            };
-        }
-
-        // Draw enemy
-        function drawEnemy(enemy) {
-            ctx.save();
-            
-            // Enemy ship
-            ctx.fillStyle = enemy.color;
-            ctx.beginPath();
-            ctx.ellipse(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2,
-                        enemy.width / 2, enemy.height / 2, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Enemy details
-            ctx.fillStyle = '#000000';
-            ctx.beginPath();
-            ctx.arc(enemy.x + enemy.width / 2, enemy.y + enemy.height / 2, 10, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.restore();
-        }
-
-        // Create bullet
-        function createBullet(x, y, isPlayer = true) {
-            return {
-                x: x,
-                y: y,
-                width: 6,
-                height: 20,
-                speed: isPlayer ? -15 : 8,
-                color: isPlayer ? '#ffff00' : '#ff4444'
-            };
-        }
-
-        // Draw bullet
-        function drawBullet(bullet) {
-            ctx.save();
-            
-            // Bullet glow
-            ctx.fillStyle = bullet.color;
-            ctx.beginPath();
-            ctx.ellipse(bullet.x + bullet.width / 2, bullet.y + bullet.height / 2,
-                        bullet.width, bullet.height, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.restore();
-        }
-
-        // Create power-up
-        function createPowerUp() {
-            const types = ['health', 'ammo', 'rapidFire', 'shield'];
-            const type = types[Math.floor(Math.random() * types.length)];
-            
-            let color;
-            switch(type) {
-                case 'health': color = '#ff4444'; break;
-                case 'ammo': color = '#4488ff'; break;
-                case 'rapidFire': color = '#ffff00'; break;
-                case 'shield': color = '#00ffff'; break;
-            }
-            
-            return {
-                x: Math.random() * (canvas.width - 40),
-                y: -40,
-                width: 35,
-                height: 35,
-                speed: 3,
-                type: type,
-                color: color
-            };
-        }
-
-        // Draw power-up
-        function drawPowerUp(powerUp) {
-            ctx.save();
-            
-            ctx.fillStyle = powerUp.color;
-            ctx.beginPath();
-            ctx.roundRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height, 8);
-            ctx.fill();
-            
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '20px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            
-            let symbol;
-            switch(powerUp.type) {
-                case 'health': symbol = '❤️'; break;
-                case 'ammo': symbol = '⚡'; break;
-                case 'rapidFire': symbol = '🔥'; break;
-                case 'shield': symbol = '🛡️'; break;
-            }
-            
-            ctx.fillText(symbol, powerUp.x + powerUp.width / 2, powerUp.y + powerUp.height / 2);
-            
-            ctx.restore();
-        }
-
-        // Check collision
-        function checkCollision(rect1, rect2) {
-            return rect1.x < rect2.x + rect2.width &&
-                   rect1.x + rect1.width > rect2.x &&
-                   rect1.y < rect2.y + rect2.height &&
-                   rect1.y + rect1.height > rect2.y;
-        }
-
-        // Update HUD
-        function updateHUD() {
-            document.getElementById('health').textContent = game.health;
-            document.getElementById('score').textContent = game.score;
-            document.getElementById('ammo').textContent = game.ammo;
-            document.getElementById('level').textContent = game.level;
-        }
-
-        // Take damage
-        function takeDamage(amount) {
-            if (player.hasShield) return;
-            
-            game.health -= amount;
-            if (game.health < 0) game.health = 0;
-            updateHUD();
-            
-            // Visual feedback
-            canvas.style.boxShadow = '0 0 50px red';
-            setTimeout(() => {
-                canvas.style.boxShadow = 'none';
-            }, 100);
-        }
-
-        // Apply power-up
-        function applyPowerUp(type) {
-            switch(type) {
-                case 'health':
-                    game.health = Math.min(100, game.health + 30);
-                    break;
-                case 'ammo':
-                    game.ammo += 40;
-                    break;
-                case 'rapidFire':
-                    player.shootDelay = 100;
-                    setTimeout(() => {
-                        player.shootDelay = 250;
-                    }, 8000);
-                    break;
-                case 'shield':
-                    player.hasShield = true;
-                    setTimeout(() => {
-                        player.hasShield = false;
-                    }, 10000);
-                    break;
-            }
-            updateHUD();
-        }
-
-        // Main game loop
-        function gameLoop() {
-            if (!game.running) return;
-            
-            // Clear canvas
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw background
-            drawStars();
-            
-            // Move player
-            if ((keys.ArrowLeft || keys.a) && player.x > 10) {
-                player.x -= player.speed;
-            }
-            if ((keys.ArrowRight || keys.d) && player.x < canvas.width - player.width - 10) {
-                player.x += player.speed;
-            }
-            
-            // Player shooting
-            const currentTime = Date.now();
-            if ((keys[' '] || keys.Space) && currentTime - player.lastShot > player.shootDelay && game.ammo > 0) {
-                player.bullets.push(createBullet(
-                    player.x + player.width / 2 - 3,
-                    player.y
-                ));
-                player.lastShot = currentTime;
-                game.ammo--;
-                updateHUD();
-            }
-            
-            // Spawn enemies
-            const settings = difficultySettings[game.difficulty];
-            if (Math.random() * settings.spawnRate < 1) {
-                enemies.push(createEnemy());
-            }
-            
-            // Spawn power-ups occasionally
-            if (Math.random() * 400 < 1 && game.score > 500) {
-                game.powerUps.push(createPowerUp());
-            }
-            
-            // Update player bullets
-            player.bullets = player.bullets.filter(bullet => {
-                bullet.y += bullet.speed;
-                
-                if (bullet.y < 0) return false;
-                
-                // Check collision with enemies
-                let hitEnemy = false;
-                enemies = enemies.filter(enemy => {
-                    if (checkCollision(bullet, enemy)) {
-                        enemy.health--;
-                        if (enemy.health <= 0) {
-                            game.score += 100;
-                            game.enemiesDestroyed++;
-                            
-                            // Level up every 500 points
-                            if (game.score >= game.level * 500) {
-                                game.level++;
-                            }
-                            
-                            updateHUD();
-                            return false;
+        });
+        
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements with animation classes
+        document.querySelectorAll('.category-card, .tool-card').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Tool search functionality
+        document.querySelectorAll('.btn-outline').forEach(btn => {
+            if (btn.textContent.includes('Search')) {
+                btn.addEventListener('click', () => {
+                    const searchInput = document.createElement('input');
+                    searchInput.type = 'text';
+                    searchInput.placeholder = 'Search for tools...';
+                    searchInput.style.cssText = `
+                        position: fixed;
+                        top: 100px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        padding: 1rem 1.5rem;
+                        border-radius: 50px;
+                        border: 2px solid var(--primary-color);
+                        box-shadow: var(--shadow-xl);
+                        width: 90%;
+                        max-width: 500px;
+                        z-index: 1001;
+                        font-size: 1rem;
+                        outline: none;
+                    `;
+                    
+                    document.body.appendChild(searchInput);
+                    searchInput.focus();
+                    
+                    // Remove on escape or click outside
+                    const removeSearch = (e) => {
+                        if (e.key === 'Escape' || (!e.target.isEqualNode(searchInput) && e.type === 'click')) {
+                            searchInput.remove();
+                            document.removeEventListener('keydown', removeSearch);
+                            document.removeEventListener('click', removeSearch);
                         }
-                        hitEnemy = true;
-                    }
-                    return true;
+                    };
+                    
+                    document.addEventListener('keydown', removeSearch);
+                    setTimeout(() => document.addEventListener('click', removeSearch), 100);
                 });
-                
-                if (            color: white;
-        }
-
-        #startScreen h1 {
-            font-size: 48px;
-            color: #00ffff;
-            text-shadow: 0 0 20px #00ffff;
-            margin-bottom: 30px;
-        }
-
-        #startBtn {
-            padding: 15px 40px;
-            font-size: 20px;
-            background: linear-gradient(145deg, #00cc66, #009944);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-
-        #startBtn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px #00ff00;
-        }
-
-        .instructions {
-            margin-top: 30px;
-            text-align: center;
-            max-width: 600px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 10px;
-        }
-
-        .instructions h3 {
-            color: #00ffff;
-            margin-bottom: 15px;
-        }
-
-        .instructions ul {
-            list-style: none;
-            text-align: left;
-        }
-
-        .instructions li {
-            margin: 10px 0;
-            color: #ccc;
-        }
-
-        .stat-item {
-            margin: 0 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-item i {
-            color: #00ffff;
-        }
-
-        #health { color: #ff4444; }
-        #score { color: #44ff44; }
-        #ammo { color: #4488ff; }
-        #level { color: #ff44ff; }
-
-        #gameOverScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            color: white;
-        }
-
-        #gameOverScreen h2 {
-            font-size: 48px;
-            color: #ff4444;
-            margin-bottom: 20px;
-        }
-
-        #restartBtn {
-            padding: 15px 40px;
-            font-size: 20px;
-            background: linear-gradient(145deg, #ff3366, #cc0033);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .control-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 20px;
             }
-            
-            #hud {
-                font-size: 16px;
-                padding: 10px;
-            }
-            
-            #startScreen h1 {
-                font-size: 36px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div id="gameContainer">
-        <div id="hud">
-            <div class="stat-item">
-                <i class="fas fa-heart"></i>
-                <span id="health">100</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-crosshairs"></i>
-                <span id="score">0</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-bolt"></i>
-                <span id="ammo">30</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-layer-group"></i>
-                <span id="level">1</span>
-            </div>
-        </div>
-
-        <canvas id="gameCanvas"></canvas>
-
-        <div id="controls">
-            <button id="leftBtn" class="control-btn"><i class="fas fa-arrow-left"></i></button>
-            <button id="shootBtn" class="control-btn"><i class="fas fa-bullseye"></i></button>
-            <button id="rightBtn" class="control-btn"><i class="fas fa-arrow-right"></i></button>
-        </div>
-    </div>
-
-    <div id="startScreen">
-        <h1><i class="fas fa-rocket"></i> SPACE SHOOTER</h1>
-        <button id="startBtn">START GAME</button>
-        
-        <div class="instructions">
-            <h3>HOW TO PLAY</h3>
-            <ul>
-                <li><i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> Move your spaceship</li>
-                <li><i class="fas fa-bullseye"></i> Shoot bullets to destroy enemies</li>
-                <li><i class="fas fa-heart"></i> Avoid enemies and their bullets</li>
-                <li><i class="fas fa-star"></i> Collect power-ups for bonuses</li>
-                <li>Survive as long as possible!</li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="gameOverScreen">
-        <h2>GAME OVER</h2>
-        <div class="final-stats">
-            <p>Final Score: <span id="finalScore">0</span></p>
-            <p>Level Reached: <span id="finalLevel">1</span></p>
-            <p>Enemies Destroyed: <span id="finalEnemies">0</span></p>
-        </div>
-        <button id="restartBtn">PLAY AGAIN</button>
-    </div>
-
-    <script src="game.js"></script>
-</body>
-    </html>    </div>
-
-    <script src="game.js"></script>
+        });
+    </script>
 </body>
 </html>
